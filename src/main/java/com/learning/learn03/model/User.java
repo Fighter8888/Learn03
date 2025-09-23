@@ -22,4 +22,6 @@ public class User {
     private String password;
     private UserStatus status = UserStatus.Pending;
 
+    @ManyToOne
+    private Role role;
 }
