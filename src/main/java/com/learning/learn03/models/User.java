@@ -1,9 +1,9 @@
-package com.learning.learn03.model;
+package com.learning.learn03.models;
 
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.usertype.UserType;
+import java.util.*;
 
 @SuperBuilder
 @Getter
@@ -22,6 +22,11 @@ public class User {
     private String password;
     private UserStatus status = UserStatus.Pending;
 
-    @ManyToOne
-    private Role role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private List<Role> roles =  new ArrayList<>();
 }

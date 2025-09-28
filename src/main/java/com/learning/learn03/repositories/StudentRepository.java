@@ -1,6 +1,6 @@
-package com.learning.learn03.repository;
+package com.learning.learn03.repositories;
 
-import com.learning.learn03.model.Student;
+import com.learning.learn03.models.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.List;

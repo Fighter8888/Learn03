@@ -1,4 +1,4 @@
-package com.learning.learn03.model;
+package com.learning.learn03.models;
 
 import jakarta.persistence.*;
 import lombok.*;

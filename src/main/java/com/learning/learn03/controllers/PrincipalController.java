@@ -1,8 +1,8 @@
-package com.learning.learn03.controller;
+package com.learning.learn03.controllers;
 
-import com.learning.learn03.model.User;
-import com.learning.learn03.model.UserStatus;
-import com.learning.learn03.service.PrincipalService;
+import com.learning.learn03.models.User;
+import com.learning.learn03.models.UserStatus;
+import com.learning.learn03.services.PrincipalService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

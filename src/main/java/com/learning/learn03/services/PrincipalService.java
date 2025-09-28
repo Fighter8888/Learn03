@@ -1,14 +1,15 @@
-package com.learning.learn03.service;
+package com.learning.learn03.services;
 
-import com.learning.learn03.model.User;
-import com.learning.learn03.model.UserStatus;
-import com.learning.learn03.repository.UserRepository;
+import com.learning.learn03.interfaces.IPrincipalService;
+import com.learning.learn03.models.User;
+import com.learning.learn03.models.UserStatus;
+import com.learning.learn03.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class PrincipalService {
+public class PrincipalService implements IPrincipalService {
 
     private final UserRepository userRepository;
 
@@ -57,7 +58,7 @@ public class PrincipalService {
         user.setLastName(updatedUser.getLastName());
         user.setEmail(updatedUser.getEmail());
         user.setPassword(updatedUser.getPassword());
-        user.setRole(updatedUser.getRole());
+        user.setRoles(updatedUser.getRoles());
         return userRepository.save(user);
     }
 }

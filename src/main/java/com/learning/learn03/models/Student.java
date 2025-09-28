@@ -1,12 +1,9 @@
-package com.learning.learn03.model;
+package com.learning.learn03.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @SuperBuilder
 @Getter

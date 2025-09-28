@@ -1,71 +1,64 @@
-package com.learning.learn03.controller;
+package com.learning.learn03.controllers;
 
-import com.learning.learn03.model.Course;
-import com.learning.learn03.service.CourseService;
+import com.learning.learn03.dtos.CourseDto;
+import com.learning.learn03.models.Course;
+import com.learning.learn03.services.CourseService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @RestController
 @RequestMapping("/courses")
 public class CourseController {
-    private final CourseService service;
+    private final CourseService courseService;
 
-    public CourseController(CourseService service) {
-        this.service = service;
+    public CourseController( CourseService courseService) {
+        this.courseService = courseService;
     }
 
     @PostMapping
-    public ResponseEntity<Course> create(@RequestBody Course req) {
-        Course c = Course.builder()
-                .code(req.getCode())
-                .title(req.getTitle())
-                .startDate(req.getStartDate())
-                .endDate(req.getEndDate())
-                .capacity(req.getCapacity())
-                .build();
-
-        Course saved = service.createCourse(c);
-        return ResponseEntity.ok(saved);
+    public ResponseEntity<CourseDto> createCourse(@RequestBody CourseDto courseDto) {
+        courseService.createCourse(courseDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(courseDto);
     }
 
     @GetMapping
-    public ResponseEntity<List<Course>> listAll() {
-        var list = service.listAll();
+    public ResponseEntity<List<CourseDto>> findAll() {
+        var list = courseService.findAll();
         return ResponseEntity.ok(list);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Course> get(@PathVariable int id) {
-        return service.findById(id)
+        return courseService.findById(id)
                 .map(c -> ResponseEntity.ok(c))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{courseId}/assign-teacher/{teacherId}")
     public ResponseEntity<Course> assignTeacher(@PathVariable int courseId, @PathVariable int teacherId) {
-        Course updated = service.assignTeacher(courseId, teacherId);
+        Course updated = courseService.updateCourseTeacher(courseId, teacherId);
         return ResponseEntity.ok(updated);
     }
 
     @PostMapping("/{courseId}/enroll/{studentId}")
     public ResponseEntity<Course> enroll(@PathVariable int courseId, @PathVariable int studentId) {
-        Course updated = service.enrollStudent(courseId, studentId);
+        Course updated = courseService.enrollStudent(courseId, studentId);
         return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{courseId}/students/{studentId}")
     public ResponseEntity<Course> removeStudent(@PathVariable int courseId, @PathVariable int studentId) {
-        Course updated = service.removeStudent(courseId, studentId);
+        Course updated = courseService.removeStudent(courseId, studentId);
         return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{courseId}")
     public ResponseEntity<Void> delete(@PathVariable int courseId) {
-        service.deleteCourse(courseId);
+        courseService.deleteCourse(courseId);
         return ResponseEntity.noContent().build();
     }
 

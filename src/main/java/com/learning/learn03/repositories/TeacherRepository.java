@@ -1,6 +1,6 @@
-package com.learning.learn03.repository;
+package com.learning.learn03.repositories;
 
-import com.learning.learn03.model.Teacher;
+import com.learning.learn03.models.Teacher;
 import org.springframework.data.jpa.repository.support.JpaRepositoryImplementation;
 import org.springframework.stereotype.Repository;
 

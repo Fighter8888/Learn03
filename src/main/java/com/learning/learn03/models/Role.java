@@ -1,11 +1,11 @@
-package com.learning.learn03.model;
+package com.learning.learn03.models;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.util.ArrayList;
-import java.util.List;
+import lombok.experimental.SuperBuilder;
+import java.util.*;
 
-@Builder
+@SuperBuilder
 @Getter
 @Setter
 @AllArgsConstructor
@@ -16,6 +16,6 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @OneToMany
+    @ManyToMany(mappedBy = "roles")
     private List<User> users = new ArrayList<>();
 }
