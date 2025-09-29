@@ -31,4 +31,6 @@ public class PrincipalController {
     public ResponseEntity<User> updateUser(@PathVariable int id, @RequestBody User updatedUser) {
         return ResponseEntity.ok(principalService.updateUser(id, updatedUser));
     }
+
+
 }

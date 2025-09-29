@@ -5,8 +5,8 @@ import com.learning.learn03.models.Course;
 import com.learning.learn03.services.CourseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 
@@ -15,52 +15,60 @@ import java.util.List;
 public class CourseController {
     private final CourseService courseService;
 
-    public CourseController( CourseService courseService) {
+    public CourseController(CourseService courseService) {
         this.courseService = courseService;
     }
 
+    @PreAuthorize("hasRole('Principal')")
     @PostMapping
     public ResponseEntity<CourseDto> createCourse(@RequestBody CourseDto courseDto) {
         courseService.createCourse(courseDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(courseDto);
     }
 
-    @GetMapping
-    public ResponseEntity<List<CourseDto>> findAll() {
-        var list = courseService.findAll();
-        return ResponseEntity.ok(list);
+    @PreAuthorize("hasRole('Principal')")
+    @PostMapping("/{id}")
+    public ResponseEntity<CourseDto> updateCourse(@PathVariable int id, @RequestBody CourseDto courseDto) {
+        courseService.updateCourse(id, courseDto);
+        return ResponseEntity.status(HttpStatus.OK).body(courseDto);
     }
 
+    @PreAuthorize("hasRole('Principal')")
+    @GetMapping
+    public ResponseEntity<List<CourseDto>> findAllCourses() {
+        List<CourseDto> courseList = courseService.findAll();
+        return ResponseEntity.ok(courseList);
+    }
+
+    @PreAuthorize("hasRole('Principal')")
     @GetMapping("/{id}")
-    public ResponseEntity<Course> get(@PathVariable int id) {
+    public ResponseEntity<Course> findCourseById(@PathVariable int id) {
         return courseService.findById(id)
                 .map(c -> ResponseEntity.ok(c))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
+    @PreAuthorize("hasRole('Principal')")
     @PutMapping("/{courseId}/assign-teacher/{teacherId}")
-    public ResponseEntity<Course> assignTeacher(@PathVariable int courseId, @PathVariable int teacherId) {
-        Course updated = courseService.updateCourseTeacher(courseId, teacherId);
-        return ResponseEntity.ok(updated);
+    public ResponseEntity<CourseDto> updateCourseTeacher(@PathVariable int courseId, @PathVariable int teacherId) {
+        courseService.updateCourseTeacher(courseId, teacherId);
+        return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/{courseId}/enroll/{studentId}")
-    public ResponseEntity<Course> enroll(@PathVariable int courseId, @PathVariable int studentId) {
-        Course updated = courseService.enrollStudent(courseId, studentId);
-        return ResponseEntity.ok(updated);
+    @PostMapping("/{courseId}/Add-student/{studentId}")
+    public ResponseEntity<CourseDto> addStudent(@PathVariable int courseId, @PathVariable int studentId) {
+        courseService.addStudentToCourse(courseId, studentId);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @DeleteMapping("/{courseId}/students/{studentId}")
+    @DeleteMapping("/{courseId}/remove-student/{studentId}")
     public ResponseEntity<Course> removeStudent(@PathVariable int courseId, @PathVariable int studentId) {
-        Course updated = courseService.removeStudent(courseId, studentId);
-        return ResponseEntity.ok(updated);
+        courseService.deleteStudentFromCourse(courseId, studentId);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @DeleteMapping("/{courseId}")
-    public ResponseEntity<Void> delete(@PathVariable int courseId) {
+    public ResponseEntity<Void> deleteCourse(@PathVariable int courseId) {
         courseService.deleteCourse(courseId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
-
-
 }

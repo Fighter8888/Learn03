@@ -8,8 +8,13 @@ import com.learning.learn03.repositories.RoleRepository;
 import com.learning.learn03.repositories.StudentRepository;
 import com.learning.learn03.repositories.TeacherRepository;
 import com.learning.learn03.repositories.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.List;
+
+import static ch.qos.logback.core.util.AggregationType.NOT_FOUND;
 
 @Service
 public class UserService implements IUserService {
@@ -58,5 +63,19 @@ public class UserService implements IUserService {
 
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    public void changeRole(String email , String roleName) {
+        User account = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException(String.format( "Account")));
+
+        Role role = roleRepository.findByName(roleName.toUpperCase())
+                .orElseThrow(() -> new EntityNotFoundException(String.format( "Role")));
+
+        if (account.getRoles().contains(role)) {
+            account.setRoles((List<Role>) role);
+            userRepository.save(account);
+        }
+        else throw new AccessDeniedException("Can't change this role!");
     }
 }

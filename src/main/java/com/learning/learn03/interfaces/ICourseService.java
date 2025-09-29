@@ -19,9 +19,9 @@ public interface ICourseService {
 
     public Course updateCourseTeacher(int courseId, int teacherId);
 
-    public Course enrollStudent(int courseId, int studentId);
+    public void addStudentToCourse(int courseId, int studentId);
 
-    public Course removeStudent(int courseId, int studentId);
+    public void deleteStudentFromCourse(int courseId, int studentId);
 
     public void deleteCourse(int courseId);
 }

@@ -30,26 +30,6 @@ public class PrincipalService implements IPrincipalService {
         return userRepository.save(user);
     }
 
-//    public User approveUser(int id) {
-//        return userRepository.findById(id).map(user -> {
-//            if (user.getStatus() == UserStatus.Pending) {
-//                user.setStatus(UserStatus.Approved);
-//                return userRepository.save(user);
-//            }
-//            return user;
-//        }).orElseThrow(() -> new RuntimeException("User not found"));
-//    }
-//
-//    public User rejectUser(int id) {
-//        return userRepository.findById(id).map(user -> {
-//            if (user.getStatus() == UserStatus.Pending) {
-//                user.setStatus(UserStatus.Rejected);
-//                return userRepository.save(user);
-//            }
-//            return user;
-//        }).orElseThrow(() -> new RuntimeException("User not found"));
-//    }
-
     public User updateUser(int id, User updatedUser) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));

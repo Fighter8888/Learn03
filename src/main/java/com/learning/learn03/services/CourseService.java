@@ -4,24 +4,22 @@ import com.learning.learn03.dtos.CourseDto;
 import com.learning.learn03.interfaces.ICourseService;
 import com.learning.learn03.models.*;
 import com.learning.learn03.repositories.CourseRepository;
+import com.learning.learn03.repositories.StudentRepository;
 import com.learning.learn03.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class CourseService implements ICourseService {
     private final CourseRepository courseRepository;
     private final UserRepository userRepository;
+    private final StudentRepository studentRepository;
 
-    public CourseService(CourseRepository courseRepository, UserRepository userRepository) {
+    public CourseService(CourseRepository courseRepository, UserRepository userRepository, StudentRepository studentRepository) {
         this.courseRepository = courseRepository;
         this.userRepository = userRepository;
+        this.studentRepository = studentRepository;
     }
 
     @Override
@@ -70,7 +68,7 @@ public class CourseService implements ICourseService {
         return courseRepository.findByTeacherId(teacherId);
     }
 
-    //    @Transactional
+    @Override
     public Course updateCourseTeacher(int courseId, int teacherId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new NoSuchElementException("Course not found"));
@@ -86,11 +84,11 @@ public class CourseService implements ICourseService {
         return courseRepository.save(course);
     }
 
-    @Transactional
-    public Course enrollStudent(int courseId, int studentId) {
+    @Override
+    public void addStudentToCourse(int courseId, int studentId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new NoSuchElementException("Course not found"));
-        User student = userRepository.findById(studentId)
+        Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new NoSuchElementException("Student not found"));
 
         if (student.getStatus() != UserStatus.Approved) {
@@ -101,20 +99,32 @@ public class CourseService implements ICourseService {
             throw new IllegalStateException("Course is full");
         }
 
-        course.getStudents().add((Student) student);
-        return courseRepository.save(course);
+        course.getStudents().add(student);
+        student.getCourse().add(course);
+        studentRepository.save(student);
     }
 
-    @Transactional
-    public Course removeStudent(int courseId, int studentId) {
+    @Override
+    public void deleteStudentFromCourse(int courseId, int studentId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new NoSuchElementException("Course not found"));
-        User student = userRepository.findById(studentId)
+        Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new NoSuchElementException("Student not found"));
 
+        if (student.getStatus() != UserStatus.Approved) {
+            throw new IllegalStateException("Student not approved");
+        }
+
+        if (course.getCapacity() > 0 && course.getStudents().size() >= course.getCapacity()) {
+            throw new IllegalStateException("Course is full");
+        }
+
         course.getStudents().remove(student);
-        return courseRepository.save(course);
+        student.getCourse().remove(course);
+        studentRepository.save(student);
     }
+
+
 
     @Override
     public void deleteCourse(int courseId) {
