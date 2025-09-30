@@ -1,9 +1,6 @@
 package com.learning.learn03.controllers;
 
-import com.learning.learn03.dtos.RoleDto;
-import com.learning.learn03.dtos.StudentDto;
-import com.learning.learn03.dtos.TeacherDto;
-import com.learning.learn03.dtos.UserDto;
+import com.learning.learn03.dtos.*;
 import com.learning.learn03.models.Teacher;
 import com.learning.learn03.models.User;
 import com.learning.learn03.services.UserService;
@@ -33,10 +30,15 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    //    @PostMapping("/login")
+//    public ResponseEntity<User> login(@RequestBody LoginDto loginDto) {
+//        User loggedInUser = userService.login(loginDto.getEmail(), loginDto.getPassword());
+//        return ResponseEntity.status(HttpStatus.ACCEPTED).body(loggedInUser);
+//    }
     @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody UserDto userDto) {
-        User loggedInUser = userService.login(userDto.getFirstName(), userDto.getPassword());
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(loggedInUser);
+    public ResponseEntity<?> login(@RequestBody  LoginDto loginDto) {
+        AuthenticationResponse login = userService.login(loginDto);
+        return new ResponseEntity<>(login, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('Principal')")

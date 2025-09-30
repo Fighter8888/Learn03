@@ -5,6 +5,7 @@ import com.learning.learn03.models.Role;
 import com.learning.learn03.repositories.PrincipalRepository;
 import com.learning.learn03.repositories.RoleRepository;
 import com.learning.learn03.repositories.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,11 +19,13 @@ public class InitializerService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PrincipalRepository principalRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public InitializerService(UserRepository userRepository, RoleRepository roleRepository, PrincipalRepository principalRepository) {
+    public InitializerService(UserRepository userRepository, RoleRepository roleRepository, PrincipalRepository principalRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.principalRepository = principalRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public void createPrincipalIfNotExists() {
@@ -31,7 +34,7 @@ public class InitializerService {
         if (userRepository.findByRoles(principalRole).isEmpty()) {
             Principal principal = new Principal();
             principal.setEmail("principal@gmail.com");
-            principal.setPassword("principal");
+            principal.setPassword(passwordEncoder.encode("password"));
             principal.setRoles(List.of(principalRole));
             principalRepository.save(principal);
         }
