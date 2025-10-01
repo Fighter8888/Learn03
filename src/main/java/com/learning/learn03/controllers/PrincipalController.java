@@ -1,11 +1,10 @@
 package com.learning.learn03.controllers;
 
-import com.learning.learn03.models.User;
+import com.learning.learn03.dtos.UserDto;
 import com.learning.learn03.models.UserStatus;
 import com.learning.learn03.services.PrincipalService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -18,19 +17,17 @@ public class PrincipalController {
     }
 
     @GetMapping("/pending")
-    public ResponseEntity<List<User>> getPendingUsers() {
+    public ResponseEntity<List<UserDto>> getPendingUsers() {
         return ResponseEntity.ok(principalService.getPendingUsers());
     }
 
     @PutMapping("/{id}/status")
-    public ResponseEntity<User> updateUserStatus(@PathVariable int id, @RequestParam UserStatus status) {
+    public ResponseEntity<UserDto> updateUserStatus(@PathVariable int id, @RequestParam UserStatus status) {
         return ResponseEntity.ok(principalService.updateUserStatus(id, status));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable int id, @RequestBody User updatedUser) {
+    public ResponseEntity<UserDto> updateUser(@PathVariable int id, @RequestBody UserDto updatedUser) {
         return ResponseEntity.ok(principalService.updateUser(id, updatedUser));
     }
-
-
 }

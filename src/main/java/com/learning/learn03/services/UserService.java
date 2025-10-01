@@ -1,5 +1,6 @@
 package com.learning.learn03.services;
 
+import com.learning.learn03.base.BaseService;
 import com.learning.learn03.dtos.*;
 import com.learning.learn03.interfaces.IUserService;
 import com.learning.learn03.models.*;
@@ -8,6 +9,7 @@ import com.learning.learn03.repositories.StudentRepository;
 import com.learning.learn03.repositories.TeacherRepository;
 import com.learning.learn03.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,14 +19,16 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import static ch.qos.logback.core.util.AggregationType.NOT_FOUND;
 
 @Service
-public class UserService implements IUserService {
+public class UserService extends BaseService<User, Integer> implements IUserService   {
+
+    private final static String NOT_FOUND = "%s not found!";
+    private final static String EXIST = "Already exists!";
+
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final StudentRepository studentRepository;
@@ -34,7 +38,8 @@ public class UserService implements IUserService {
     private final PasswordEncoder passwordEncoder;
 
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, StudentRepository studentRepository, TeacherRepository teacherRepository, AuthenticationManager authenticationManager, JwtService jwtService, PasswordEncoder passwordEncoder) {
+    protected UserService(JpaRepository<User, Integer> jpaRepository,  UserRepository userRepository, RoleRepository roleRepository, StudentRepository studentRepository, TeacherRepository teacherRepository, AuthenticationManager authenticationManager, JwtService jwtService, PasswordEncoder passwordEncoder) {
+        super(jpaRepository);
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.studentRepository = studentRepository;
@@ -45,7 +50,6 @@ public class UserService implements IUserService {
     }
 
     public AuthenticationResponse login(LoginDto loginDto) {
-        // Authenticate the user
         final Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginDto.getEmail(),
@@ -55,7 +59,6 @@ public class UserService implements IUserService {
 
         final UserDetails userDetails = (UserDetails) auth.getPrincipal();
 
-        // Find the user entity
         final User user = userRepository.findByEmail(userDetails.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
