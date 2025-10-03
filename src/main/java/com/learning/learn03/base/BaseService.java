@@ -54,6 +54,11 @@ public abstract class BaseService<T extends BaseEntity<ID>, ID extends Serializa
         return repository.findAll();
     }
 
+    @Override
+    public boolean existsById(ID id) {
+        return repository.existsById(id);
+    }
+
 
     protected void prePersist(T t) {
     }

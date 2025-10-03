@@ -29,7 +29,7 @@ public class InitializerService {
     }
 
     public void createPrincipalIfNotExists() {
-        Role principalRole = roleRepository.findByName("PRINCIPAL")
+        Role principalRole = roleRepository.findByRoleName("PRINCIPAL")
                 .orElseThrow(() -> new RuntimeException("Role not found"));
         if (userRepository.findByRoles(principalRole).isEmpty()) {
             Principal principal = new Principal();
@@ -41,9 +41,9 @@ public class InitializerService {
     }
 
     public void createRolesIfNotExist() {
-        Optional<Role> principal = roleRepository.findByName("PRINCIPAL");
-        Optional<Role> teacher = roleRepository.findByName("TEACHER");
-        Optional<Role> student = roleRepository.findByName("STUDENT");
+        Optional<Role> principal = roleRepository.findByRoleName("PRINCIPAL");
+        Optional<Role> teacher = roleRepository.findByRoleName("TEACHER");
+        Optional<Role> student = roleRepository.findByRoleName("STUDENT");
         if (student.isEmpty() && teacher.isEmpty() && principal.isEmpty()) {
             roleRepository.save(Role.builder().name("PRINCIPAL").build());
             roleRepository.save(Role.builder().name("TEACHER").build());

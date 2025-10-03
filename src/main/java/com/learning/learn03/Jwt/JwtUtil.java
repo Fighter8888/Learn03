@@ -1,4 +1,4 @@
-package com.learning.learn03.security;
+package com.learning.learn03.Jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;

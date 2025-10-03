@@ -4,6 +4,7 @@ import com.learning.learn03.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.validator.constraints.NotBlank;
 import java.util.*;
 
 @SuperBuilder
@@ -14,14 +15,16 @@ import java.util.*;
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity<Integer> {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @NotBlank
     private String firstName;
+    @NotBlank
     private String lastName;
-    private String email;
-    private String password;
-    private UserStatus status = UserStatus.Pending;
+    @NotBlank
+    private String phoneNumber;
+
+
+    @OneToOne
+    private Account account;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -29,5 +32,14 @@ public class User extends BaseEntity<Integer> {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private List<Role> roles =  new ArrayList<>();
+    private List<Role> roles = new ArrayList<>();
+
+    @ManyToOne
+    private Major major;
+    @ManyToOne
+    private Semester semester;
+
+    @ManyToMany
+    private List<AvailableCourse> availableCourses = new ArrayList<>();
+
 }

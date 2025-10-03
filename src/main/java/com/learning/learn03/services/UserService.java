@@ -1,5 +1,6 @@
 package com.learning.learn03.services;
 
+import com.learning.learn03.Jwt.JwtService;
 import com.learning.learn03.base.BaseService;
 import com.learning.learn03.dtos.*;
 import com.learning.learn03.interfaces.IUserService;
@@ -76,7 +77,7 @@ public class UserService extends BaseService<User, Integer> implements IUserServ
     }
 
     public void registerStudent(StudentDto dto) {
-        Role studentRole = roleRepository.findByName("STUDENT").get();
+        Role studentRole = roleRepository.findByRoleName("STUDENT").get();
         studentRepository.save(Student.builder()
                 .firstName(dto.getFirstName())
                 .lastName(dto.getLastName())
@@ -88,7 +89,7 @@ public class UserService extends BaseService<User, Integer> implements IUserServ
     }
 
     public void registerTeacher(TeacherDto dto) {
-        Role teacherRole = roleRepository.findByName("TEACHER").get();
+        Role teacherRole = roleRepository.findByRoleName("TEACHER").get();
         teacherRepository.save(Teacher.builder()
                 .firstName(dto.getFirstName())
                 .lastName(dto.getLastName())
@@ -107,7 +108,7 @@ public class UserService extends BaseService<User, Integer> implements IUserServ
         User account = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format( "Account")));
 
-        Role role = roleRepository.findByName(roleName.toUpperCase())
+        Role role = roleRepository.findByRoleName(roleName.toUpperCase())
                 .orElseThrow(() -> new EntityNotFoundException(String.format( "Role")));
 
         if (account.getRoles().contains(role)) {

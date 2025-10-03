@@ -1,8 +1,11 @@
 package com.learning.learn03.models;
 
+import com.learning.learn03.base.BaseEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+
 import java.util.*;
 
 @SuperBuilder
@@ -11,11 +14,14 @@ import java.util.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Role {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;
+public class Role extends BaseEntity<Integer> {
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
+
+    @NotNull
+    private String roleName;
+
     @ManyToMany(mappedBy = "roles")
     private List<User> users = new ArrayList<>();
 }

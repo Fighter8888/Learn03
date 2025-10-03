@@ -1,5 +1,6 @@
 package com.learning.learn03.models;
 
+import com.learning.learn03.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -14,18 +15,17 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Course {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private int code;
-    private String title;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private int capacity;
+public class Course extends BaseEntity<Integer> {
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private int id;
+    private int courseCode;
+    private String courseName;
+    private Boolean courseExist;
 
-    @ManyToMany
-    private List<Student> students = new ArrayList<>();
     @ManyToOne
-    private Teacher teacher;
+    private Major major;
+
+    @OneToMany
+    private List<AvailableCourse> availableCourses =  new ArrayList<>();
 }
