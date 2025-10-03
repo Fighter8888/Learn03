@@ -21,7 +21,7 @@ public class Course extends BaseEntity<Integer> {
 //    private int id;
     private int courseCode;
     private String courseName;
-    private Boolean courseExist;
+    private boolean courseExist;
 
     @ManyToOne
     private Major major;

@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ public class AvailableCourse extends BaseEntity<Integer> {
     private Instant aCourseStartDate;
     private Instant aCourseEndDate;
 
+    private CourseStatus courseStatus;
     @ManyToOne
     private Course course;
 

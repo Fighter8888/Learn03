@@ -26,7 +26,7 @@ public class StudentService implements IStudentService {
 
     @Override
     public void CourseRequest(int courseId, Principal principal) {
-        Account account = accountRepository.findByEmail(principal.getName()) //Problem in here
+        Account account = accountRepository.findByUserName(principal.getName()) //Problem in here
                 .orElseThrow(()->  new EntityNotFoundException(String.format("%s not found!", "Account")));
 
         User user = account.getUser();

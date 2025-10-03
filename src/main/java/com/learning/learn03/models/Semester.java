@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,9 +22,9 @@ import java.util.List;
 @Entity
 public class Semester extends BaseEntity<Integer> {
 
-    private Instant semesterStartDate;
-    private Instant semesterEndDate;
-    public boolean semesterExist;
+    private LocalDate semesterStartDate;
+    private LocalDate semesterEndDate;
+    public boolean semesterActive;
 
     @OneToMany(mappedBy = "semester")
     private List<AvailableCourse> availableCourses = new ArrayList<>();

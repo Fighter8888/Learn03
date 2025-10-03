@@ -40,8 +40,8 @@ public class MajorService extends BaseService<Major, Integer> implements IMajorS
     }
 
     @Override
-    public void delete(long aLong) {
-        Major major = majorRepository.findById(toaLong)
+    public void delete(int aLong) {
+        Major major = majorRepository.findById(aLong)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("%s not found!", "Major")));
         major.setMajorActive(false);
         majorRepository.save(major);
@@ -60,7 +60,7 @@ public class MajorService extends BaseService<Major, Integer> implements IMajorS
     }
 
     @Override
-    public Major findById(Long aLong) {
+    public Major findById(int aLong) {
         Major major = majorRepository.findById(aLong)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("%s not found!", "Major")));
         if (major.isMajorActive()) {

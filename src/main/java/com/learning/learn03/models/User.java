@@ -2,6 +2,7 @@ package com.learning.learn03.models;
 
 import com.learning.learn03.base.BaseEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.validator.constraints.NotBlank;
@@ -21,6 +22,9 @@ public class User extends BaseEntity<Integer> {
     private String lastName;
     @NotBlank
     private String phoneNumber;
+    @NotBlank
+    @Email
+    private String email;
 
 
     @OneToOne

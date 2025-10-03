@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import java.util.List;
+
 import java.util.UUID;
 
 @SuperBuilder
@@ -20,7 +20,7 @@ public class Account extends BaseEntity<Integer> {
     private UUID accountId;
     @Email
     @NotBlank
-    private String email;
+    private String userName;
     @NotBlank
     private String password;
 //    private UUID uuid;
