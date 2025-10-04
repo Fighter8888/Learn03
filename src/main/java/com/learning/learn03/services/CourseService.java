@@ -1,8 +1,9 @@
 package com.learning.learn03.services;
 
 import com.learning.learn03.base.BaseService;
+import com.learning.learn03.models.Course;
+import com.learning.learn03.models.Major;
 import com.learning.learn03.interfaces.ICourseService;
-import com.learning.learn03.models.*;
 import com.learning.learn03.repositories.CourseRepository;
 import com.learning.learn03.repositories.MajorRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -38,7 +39,7 @@ public class CourseService extends BaseService<Course, Integer> implements ICour
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Integer id) {
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Course not found"));
         course.setCourseExist(false);
@@ -53,7 +54,7 @@ public class CourseService extends BaseService<Course, Integer> implements ICour
     }
 
     @Override
-    public Course findById(int id) {
+    public Course findById(Integer id) {
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Course not found"));
         if (!course.isCourseExist()) {

@@ -4,22 +4,12 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDate;
-
 @SuperBuilder
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CourseDTO {
-    @NotBlank
-    private int courseCode;
-    @NotBlank
-    private String title;
+public class MajorDto {
     @NotBlank
     private String majorName;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    @NotBlank
-    private int capacity;
 }

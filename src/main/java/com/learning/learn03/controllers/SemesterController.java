@@ -1,7 +1,8 @@
 package com.learning.learn03.controllers;
 
 
-import com.learning.learn03.dtos.SemesterDTO;
+import com.learning.learn03.dtos.ApiResponseDto;
+import com.learning.learn03.dtos.SemesterDto;
 import com.learning.learn03.interfaces.ISemesterService;
 import com.learning.learn03.mappers.SemesterMapper;
 import com.learning.learn03.models.Semester;
@@ -28,14 +29,14 @@ public class SemesterController{
 
     @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<SemesterDTO> save(@RequestBody SemesterDTO termDTO) {
+    public ResponseEntity<SemesterDto> save(@RequestBody SemesterDto termDTO) {
         Semester persist = iSemesterService.persist(semesterMapper.toEntity(termDTO));
         return ResponseEntity.status(HttpStatus.CREATED).body(semesterMapper.toDto(persist));
     }
 
     @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<SemesterDTO> update(@PathVariable int id, @RequestBody SemesterDTO dto) {
+    public ResponseEntity<SemesterDto> update(@PathVariable int id, @RequestBody SemesterDto dto) {
         Semester foundedSemester = iSemesterService.findById(id);
         foundedSemester.setSemesterStartDate(dto.getStartDate());
         foundedSemester.setSemesterEndDate(dto.getEndDate());
@@ -45,22 +46,22 @@ public class SemesterController{
 
     @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponseDTO> delete(@PathVariable int id) {
+    public ResponseEntity<ApiResponseDto> delete(@PathVariable int id) {
         iSemesterService.delete(id);
-        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponseDTO("Semester deleted success." , true));
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponseDto("Semester deleted success." , true));
     }
 
     @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
     @GetMapping("/{id}")
-    public ResponseEntity<SemesterDTO> findById(@PathVariable int id) {
+    public ResponseEntity<SemesterDto> findById(@PathVariable int id) {
         return ResponseEntity.ok(semesterMapper.toDto(iSemesterService.findById(id)));
     }
 
     @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
     @GetMapping
-    public ResponseEntity<List<SemesterDTO>> findAll() {
-        List<SemesterDTO> semesterDTOS = new ArrayList<>();
-        for (Semester semester : iSemesterService.findAll()) semesterDTOS.add(semesterMapper.toDto(semester));
-        return ResponseEntity.ok(semesterDTOS);
+    public ResponseEntity<List<SemesterDto>> findAll() {
+        List<SemesterDto> semesterDtos = new ArrayList<>();
+        for (Semester semester : iSemesterService.findAll()) semesterDtos.add(semesterMapper.toDto(semester));
+        return ResponseEntity.ok(semesterDtos);
     }
 }

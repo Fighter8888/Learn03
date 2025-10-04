@@ -9,7 +9,6 @@ import java.util.List;
 public abstract class BaseService<T extends BaseEntity<ID>, ID extends Serializable>
         implements IBaseService<T, ID> {
 
-    private final String ENTITY_NOT_FOUND = "Entity not found";
 
     private final JpaRepository<T, ID> repository;
 
@@ -24,7 +23,7 @@ public abstract class BaseService<T extends BaseEntity<ID>, ID extends Serializa
             prePersist(t);
         } else {
             repository.findById(t.getId())
-                    .orElseThrow(() -> new EntityNotFoundException(ENTITY_NOT_FOUND));
+                    .orElseThrow(() -> new EntityNotFoundException("Entity not found"));
             preUpdate(t);
         }
         T saved = repository.save(t);
@@ -46,8 +45,10 @@ public abstract class BaseService<T extends BaseEntity<ID>, ID extends Serializa
     @Override
     public T findById(ID id) {
         return repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(ENTITY_NOT_FOUND));
+                .orElseThrow(() -> new EntityNotFoundException("Entity not found"));
     }
+
+
 
     @Override
     public List<T> findAll() {

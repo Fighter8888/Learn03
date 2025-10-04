@@ -1,6 +1,6 @@
 package com.learning.learn03.controllers;
 
-import com.learning.learn03.dtos.CourseDTO;
+import com.learning.learn03.dtos.CourseDto;
 import com.learning.learn03.mappers.CourseMapper;
 import com.learning.learn03.models.Course;
 import com.learning.learn03.services.CourseService;
@@ -25,14 +25,14 @@ public class CourseController {
 
     @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<CourseDTO> save(@RequestBody CourseDTO dto) {
+    public ResponseEntity<CourseDto> save(@RequestBody CourseDto dto) {
         Course course = courseService.persist(courseMapper.toEntity(dto));
         return ResponseEntity.status(HttpStatus.CREATED).body(courseMapper.toDto(course));
     }
 
     @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<CourseDTO> update(@PathVariable int id, @RequestBody CourseDTO dto) {
+    public ResponseEntity<CourseDto> update(@PathVariable int id, @RequestBody CourseDto dto) {
         Course foundedCourse = courseService.findById(id);
         foundedCourse.setCourseName(dto.getTitle());
         foundedCourse.setCourseCode(dto.getCourseCode());
@@ -49,23 +49,23 @@ public class CourseController {
 
     @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
     @GetMapping("/{id}")
-    public ResponseEntity<CourseDTO> findById(@PathVariable int id) {
+    public ResponseEntity<CourseDto> findById(@PathVariable int id) {
         return ResponseEntity.ok(courseMapper.toDto(courseService.findById(id)));
     }
 
     @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
     @GetMapping
-    public ResponseEntity<List<CourseDTO>> findAll() {
-        List<CourseDTO> courseDTOS = new ArrayList<>();
-        for (Course course : courseService.findAll()) courseDTOS.add(courseMapper.toDto(course));
-        return ResponseEntity.ok(courseDTOS);
+    public ResponseEntity<List<CourseDto>> findAll() {
+        List<CourseDto> courseDtos = new ArrayList<>();
+        for (Course course : courseService.findAll()) courseDtos.add(courseMapper.toDto(course));
+        return ResponseEntity.ok(courseDtos);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/major/courses")
-    public ResponseEntity<List<CourseDTO>> findAllMajorCourses(@RequestBody String majorName) {
-        List<CourseDTO> courseDTOS = new ArrayList<>();
-        for (Course course : courseService.findAllMajorCourses(majorName)) courseDTOS.add(courseMapper.toDto(course));
-        return ResponseEntity.ok(courseDTOS);
+    public ResponseEntity<List<CourseDto>> findAllMajorCourses(@RequestBody String majorName) {
+        List<CourseDto> courseDtos = new ArrayList<>();
+        for (Course course : courseService.findAllMajorCourses(majorName)) courseDtos.add(courseMapper.toDto(course));
+        return ResponseEntity.ok(courseDtos);
     }
 }

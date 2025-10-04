@@ -1,9 +1,10 @@
 package com.learning.learn03.controllers;
 
-import com.learning.learn03.dtos.RequestDTO;
-import com.learning.learn03.dtos.ResponseDTO;
+import com.learning.learn03.dtos.ApiResponseDto;
+import com.learning.learn03.dtos.AuthenticationRequestDto;
+import com.learning.learn03.dtos.AuthenticationResponseDto;
 import com.learning.learn03.dtos.UserDto;
-import com.learning.learn03.dtos.UserMapper;
+import com.learning.learn03.mappers.UserMapper;
 import com.learning.learn03.models.User;
 import com.learning.learn03.services.AuthenticationService;
 import org.springframework.http.HttpStatus;
@@ -26,16 +27,16 @@ public class AuthenticationController {
 
 
     @PostMapping("/student/register")
-    public ResponseEntity<ApiResponseDTO> studentRegister(@RequestBody UserDto request) {
+    public ResponseEntity<ApiResponseDto> studentRegister(@RequestBody UserDto request) {
         User user = authenticationService.persist(userMapper.toEntity(request));
         authenticationService.addRoleToPerson("student" , user.getId());
-        ApiResponseDTO responseDTO = new ApiResponseDTO("Register success" , true);
+        ApiResponseDto responseDTO = new ApiResponseDto("Register success" , true);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
 
     @PostMapping("/login")
-    public ResponseEntity<ResponseDTO> login(@RequestBody RequestDTO request) {
+    public ResponseEntity<AuthenticationResponseDto> login(@RequestBody AuthenticationRequestDto request) {
         return ResponseEntity.status(HttpStatus.OK).body(authenticationService.login(request));
     }
 

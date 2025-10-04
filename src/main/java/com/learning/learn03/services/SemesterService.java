@@ -7,11 +7,13 @@ import com.learning.learn03.repositories.SemesterRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class SemesterService extends BaseService<Semester, Integer> implements ISemesterService {
     
     private final SemesterRepository semesterRepository;
@@ -51,7 +53,7 @@ public class SemesterService extends BaseService<Semester, Integer> implements I
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Integer id) {
         Semester semester = semesterRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("semester not found!"));
         LocalDate now = LocalDate.now();
@@ -62,7 +64,7 @@ public class SemesterService extends BaseService<Semester, Integer> implements I
     }
 
     @Override
-    public Semester findById(int id) {
+    public Semester findById(Integer id) {
         Semester semester = semesterRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Semester not found"));
         if (!semester.isSemesterActive()) {
@@ -70,6 +72,8 @@ public class SemesterService extends BaseService<Semester, Integer> implements I
         }
         return semester;
     }
+
+
 
     @Override
     public List<Semester> findAll() {

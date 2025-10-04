@@ -1,5 +1,6 @@
 package com.learning.learn03.controllers;
 
+import com.learning.learn03.dtos.ApiResponseDto;
 import com.learning.learn03.interfaces.IStudentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,9 +22,9 @@ public class StudentController {
 
     @PreAuthorize("hasRole('STUDENT')")
     @PostMapping("/take/course/{courseId}")
-    public ResponseEntity<ApiResponseDTO> studentGetCourse(@PathVariable Integer courseId, Principal principal) {
+    public ResponseEntity<ApiResponseDto> studentGetCourse(@PathVariable Integer courseId, Principal principal) {
         iStudentService.CourseRequest(courseId, principal);
-        return ResponseEntity.ok(new ApiResponseDTO("Course get success.", true));
+        return ResponseEntity.ok(new ApiResponseDto("Course get success.", true));
     }
 
 

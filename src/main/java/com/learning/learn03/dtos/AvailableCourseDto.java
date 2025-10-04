@@ -1,7 +1,6 @@
 package com.learning.learn03.dtos;
 
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
 import java.time.Instant;
 
@@ -10,7 +9,7 @@ import java.time.Instant;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AvailableCourseDTO {
+public class AvailableCourseDto {
     private Instant startTime;
     private Instant endTime;
     private int capacity;

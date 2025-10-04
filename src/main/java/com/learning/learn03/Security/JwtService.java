@@ -1,4 +1,4 @@
-package com.learning.learn03.Jwt;
+package com.learning.learn03.Security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;

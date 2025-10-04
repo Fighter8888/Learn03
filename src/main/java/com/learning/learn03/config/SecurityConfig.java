@@ -1,6 +1,6 @@
 package com.learning.learn03.config;
 
-import com.learning.learn03.Jwt.JwtFilter;
+import com.learning.learn03.Security.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

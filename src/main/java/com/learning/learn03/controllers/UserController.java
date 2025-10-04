@@ -1,5 +1,6 @@
 package com.learning.learn03.controllers;
 
+import com.learning.learn03.dtos.ApiResponseDto;
 import com.learning.learn03.models.Role;
 import com.learning.learn03.services.AuthenticationService;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +23,9 @@ public class UserController {
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER') or hasRole('STUDENT') or hasRole('TEACHER') or hasRole('USER')")
     @PostMapping("/change/role")
-    public ResponseEntity<ApiResponseDTO> changeRole(@RequestBody Role request , Principal principal) {
+    public ResponseEntity<ApiResponseDto> changeRole(@RequestBody Role request , Principal principal) {
         authenticationService.changeRole(principal.getName(), request.getRoleName());
-        return ResponseEntity.ok(new ApiResponseDTO("Change role success", true));
+        return ResponseEntity.ok(new ApiResponseDto("Change role success", true));
     }
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER') or hasRole('STUDENT') or hasRole('TEACHER') or hasRole('USER')")

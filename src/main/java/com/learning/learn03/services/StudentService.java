@@ -9,9 +9,11 @@ import com.learning.learn03.repositories.AvailableCourseRepository;
 import com.learning.learn03.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 
+@Service
 public class StudentService implements IStudentService {
 
     private final UserRepository userRepository;

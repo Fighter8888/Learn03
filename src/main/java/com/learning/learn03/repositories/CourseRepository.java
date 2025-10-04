@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.support.JpaRepositoryImplementati
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -15,6 +14,6 @@ public interface CourseRepository extends JpaRepositoryImplementation<Course, In
     @Query("SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END " +
             "FROM Course c " +
             "WHERE c.courseName = :title AND c.major.id = :majorId")
-    boolean existsByMajorAndTitle(@Param("majorId") Long majorId, @Param("title") String title);
+    boolean existsByMajorAndTitle(@Param("majorId") Integer majorId, @Param("title") String title);
 
 }

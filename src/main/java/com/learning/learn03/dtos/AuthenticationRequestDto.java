@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RequestDTO {
+public class AuthenticationRequestDto {
     private String email;
     private String password;
 }

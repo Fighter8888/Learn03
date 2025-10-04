@@ -1,7 +1,7 @@
 package com.learning.learn03.mappers;
 
 import com.learning.learn03.base.BaseMapper;
-import com.learning.learn03.dtos.AvailableCourseDTO;
+import com.learning.learn03.dtos.AvailableCourseDto;
 import com.learning.learn03.models.AvailableCourse;
 import com.learning.learn03.models.Course;
 import com.learning.learn03.models.Semester;
@@ -16,7 +16,7 @@ import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Mapper(componentModel = "spring")
-public abstract class AvailableCourseMapper implements BaseMapper<AvailableCourse, AvailableCourseDTO> {
+public abstract class AvailableCourseMapper implements BaseMapper<AvailableCourse, AvailableCourseDto> {
     
     @Autowired
     private SemesterRepository semesterRepository;
@@ -25,12 +25,12 @@ public abstract class AvailableCourseMapper implements BaseMapper<AvailableCours
     @Autowired
     private UserRepository userRepository;
 
-    public abstract AvailableCourseDTO toDto(AvailableCourse entity);
+    public abstract AvailableCourseDto toDto(AvailableCourse entity);
 
-    public abstract AvailableCourse toEntity(AvailableCourseDTO dto);
+    public abstract AvailableCourse toEntity(AvailableCourseDto dto);
 
     @AfterMapping
-    protected void afterToEntity(AvailableCourseDTO dto, @MappingTarget AvailableCourse entity) {
+    protected void afterToEntity(AvailableCourseDto dto, @MappingTarget AvailableCourse entity) {
         if (dto.getSemesterCode() != null) {
             Semester semester = semesterRepository.findById(dto.getSemesterCode())
                     .orElseThrow(() -> new EntityNotFoundException("not found"));
@@ -54,7 +54,7 @@ public abstract class AvailableCourseMapper implements BaseMapper<AvailableCours
     }
 
     @AfterMapping
-    protected void afterToDTO(AvailableCourse entity, @MappingTarget AvailableCourseDTO dto) {
+    protected void afterToDTO(AvailableCourse entity, @MappingTarget AvailableCourseDto dto) {
         if (entity.getSemester() != null) {
             dto.setSemesterCode(entity.getSemester().getId());
         }

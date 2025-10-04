@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponseDTO {
+public class AuthenticationResponseDto {
     private String accessToken;
     private String refreshToken;
     private String tokenType;

@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SemesterDTO {
+public class SemesterDto {
     private LocalDate startDate;
     private LocalDate endDate;
     private String majorName;

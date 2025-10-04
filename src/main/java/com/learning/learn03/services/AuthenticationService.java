@@ -1,9 +1,9 @@
 package com.learning.learn03.services;
 
-import com.learning.learn03.Jwt.JwtService;
+import com.learning.learn03.Security.JwtService;
 import com.learning.learn03.base.BaseService;
-import com.learning.learn03.dtos.RequestDTO;
-import com.learning.learn03.dtos.ResponseDTO;
+import com.learning.learn03.dtos.AuthenticationRequestDto;
+import com.learning.learn03.dtos.AuthenticationResponseDto;
 import com.learning.learn03.interfaces.IAuthenticationService;
 import com.learning.learn03.models.Account;
 import com.learning.learn03.models.Role;
@@ -21,12 +21,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
+import org.springframework.stereotype.Service;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class AuthenticationService extends BaseService<User, Integer> implements IAuthenticationService {
 
     private final AuthenticationManager authenticationManager;
@@ -51,7 +52,7 @@ public class AuthenticationService extends BaseService<User, Integer> implements
 
 
     @Override
-    public ResponseDTO login(RequestDTO request) {
+    public AuthenticationResponseDto login(AuthenticationRequestDto request) {
         final Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -73,7 +74,7 @@ public class AuthenticationService extends BaseService<User, Integer> implements
 
             final String refreshToken = jwtService.generateRefreshToken(account.getAccountId());
 
-            return ResponseDTO.builder().accessToken(token)
+            return AuthenticationResponseDto.builder().accessToken(token)
                     .refreshToken(refreshToken).tokenType("Barrier ")
                     .role(account.getRole().getRoleName()).build();
         }
@@ -96,7 +97,7 @@ public class AuthenticationService extends BaseService<User, Integer> implements
     }
 
     @Override
-    public void addRoleToPerson(String role, int userId) {
+    public void addRoleToPerson(String role, Integer userId) {
         Role founded = roleRepository.findByRoleName(role.toUpperCase())
                 .orElseThrow(() -> new EntityNotFoundException("Role not found"));
         User user = userRepository.findById(userId)
@@ -106,7 +107,7 @@ public class AuthenticationService extends BaseService<User, Integer> implements
     }
 
     @Override
-    public void activeAccount(int id) {
+    public void activeAccount(Integer id) {
         Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Account not found"));
         account.setStatus(UserStatus.Approved);
@@ -114,7 +115,7 @@ public class AuthenticationService extends BaseService<User, Integer> implements
     }
 
     @Override
-    public void inactiveAccount(int id) {
+    public void inactiveAccount(Integer id) {
         Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Account not found"));
         account.setStatus(UserStatus.Pending);

@@ -10,6 +10,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.time.Instant;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 
+@Service
 public class AvailableCourseService extends BaseService<AvailableCourse, Integer> implements IAvailableCourseService {
 
     private final AccountRepository accountRepository;

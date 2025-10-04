@@ -1,10 +1,10 @@
 package com.learning.learn03.mappers;
 
 import com.learning.learn03.base.BaseMapper;
-import com.learning.learn03.dtos.MajorDTO;
+import com.learning.learn03.dtos.MajorDto;
+import com.learning.learn03.models.Major;
 import org.mapstruct.Mapper;
-import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(componentModel = "spring")
-public interface MajorMapper extends BaseMapper<Mapper, MajorDTO> {
+public interface MajorMapper extends BaseMapper<Major, MajorDto> {
 }

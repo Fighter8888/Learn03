@@ -1,4 +1,4 @@
-package com.learning.learn03.Jwt;
+package com.learning.learn03.Security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -11,8 +11,8 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private final String SECRET_KEY = "secret123secret123secret123secret123"; // حداقل 32 بایت
-    private final long EXPIRATION = 1000 * 60 * 60; // 1 ساعت
+    private final String SECRET_KEY = "secret123secret123secret123secret123";
+    private final long EXPIRATION = 1000 * 60 * 60;
 
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
