@@ -11,11 +11,13 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CourseDto {
+public class CourseDTO {
     @NotBlank
-    private int code;
+    private int courseCode;
     @NotBlank
     private String title;
+    @NotBlank
+    private String majorName;
     private LocalDate startDate;
     private LocalDate endDate;
     @NotBlank

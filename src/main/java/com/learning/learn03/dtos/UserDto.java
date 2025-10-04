@@ -22,4 +22,6 @@ public class UserDto {
     @NotBlank
     private String password;
     private UserStatus status;
+    private String majorName;
+    private String phoneNumber;
 }

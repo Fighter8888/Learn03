@@ -23,14 +23,14 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER') or hasRole('STUDENT') or hasRole('TEACHER') or hasRole('USER')")
     @PostMapping("/change/role")
     public ResponseEntity<ApiResponseDTO> changeRole(@RequestBody Role request , Principal principal) {
-        authenticationService.changeRole(principal.getName(), request.getRole());
+        authenticationService.changeRole(principal.getName(), request.getRoleName());
         return ResponseEntity.ok(new ApiResponseDTO("Change role success", true));
     }
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER') or hasRole('STUDENT') or hasRole('TEACHER') or hasRole('USER')")
     @GetMapping("/get/roles")
     public ResponseEntity<List<String>> getRoles(Principal principal) {
-        return ResponseEntity.ok(authenticationService.getPersonRoles(principal).stream().map(Role::getName).toList());
+        return ResponseEntity.ok(authenticationService.getPersonRoles(principal).stream().map(Role::getRoleName).toList());
     }
 //    private final UserService userService;
 //

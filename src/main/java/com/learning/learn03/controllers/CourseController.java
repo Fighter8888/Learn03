@@ -1,74 +1,71 @@
-//package com.learning.learn03.controllers;
-//
-//import com.learning.learn03.dtos.CourseDto;
-//import com.learning.learn03.models.Course;
-//import com.learning.learn03.services.CourseService;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.security.access.prepost.PreAuthorize;
-//import org.springframework.web.bind.annotation.*;
-//import java.util.List;
-//
-//
-//@RestController
-//@RequestMapping("/courses")
-//public class CourseController {
-//    private final CourseService courseService;
-//
-//    public CourseController(CourseService courseService) {
-//        this.courseService = courseService;
-//    }
-//
-//    @PreAuthorize("hasRole('Principal')")
-//    @PostMapping
-//    public ResponseEntity<CourseDto> createCourse(@RequestBody CourseDto courseDto) {
-//        courseService.createCourse(courseDto);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(courseDto);
-//    }
-//
-//    @PreAuthorize("hasRole('Principal')")
-//    @PostMapping("/{id}")
-//    public ResponseEntity<CourseDto> updateCourse(@PathVariable int id, @RequestBody CourseDto courseDto) {
-//        courseService.updateCourse(id, courseDto);
-//        return ResponseEntity.status(HttpStatus.OK).body(courseDto);
-//    }
-//
-//    @PreAuthorize("hasRole('Principal')")
-//    @GetMapping
-//    public ResponseEntity<List<CourseDto>> findAllCourses() {
-//        List<CourseDto> courseList = courseService.findAll();
-//        return ResponseEntity.ok(courseList);
-//    }
-//
-//    @PreAuthorize("hasRole('Principal')")
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Course> findCourseById(@PathVariable int id) {
-//        return courseService.findById(id)
-//                .map(c -> ResponseEntity.ok(c))
-//                .orElseGet(() -> ResponseEntity.notFound().build());
-//    }
-//    @PreAuthorize("hasRole('Principal')")
-//    @PutMapping("/{courseId}/assign-teacher/{teacherId}")
-//    public ResponseEntity<CourseDto> updateCourseTeacher(@PathVariable int courseId, @PathVariable int teacherId) {
-//        courseService.updateCourseTeacher(courseId, teacherId);
-//        return ResponseEntity.ok().build();
-//    }
-//
-//    @PostMapping("/{courseId}/Add-student/{studentId}")
-//    public ResponseEntity<CourseDto> addStudent(@PathVariable int courseId, @PathVariable int studentId) {
-//        courseService.addStudentToCourse(courseId, studentId);
-//        return ResponseEntity.status(HttpStatus.OK).build();
-//    }
-//
-//    @DeleteMapping("/{courseId}/remove-student/{studentId}")
-//    public ResponseEntity<Course> removeStudent(@PathVariable int courseId, @PathVariable int studentId) {
-//        courseService.deleteStudentFromCourse(courseId, studentId);
-//        return ResponseEntity.status(HttpStatus.OK).build();
-//    }
-//
-//    @DeleteMapping("/{courseId}")
-//    public ResponseEntity<Void> deleteCourse(@PathVariable int courseId) {
-//        courseService.deleteCourse(courseId);
-//        return ResponseEntity.status(HttpStatus.OK).build();
-//    }
-//}
+package com.learning.learn03.controllers;
+
+import com.learning.learn03.dtos.CourseDTO;
+import com.learning.learn03.mappers.CourseMapper;
+import com.learning.learn03.models.Course;
+import com.learning.learn03.services.CourseService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@RestController
+@RequestMapping("/web/course")
+public class CourseController {
+    private final CourseService courseService;
+    private final CourseMapper courseMapper;
+
+    public CourseController(CourseService courseService, CourseMapper courseMapper) {
+        this.courseService = courseService;
+        this.courseMapper = courseMapper;
+    }
+
+    @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
+    @PostMapping
+    public ResponseEntity<CourseDTO> save(@RequestBody CourseDTO dto) {
+        Course course = courseService.persist(courseMapper.toEntity(dto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(courseMapper.toDto(course));
+    }
+
+    @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
+    @PutMapping("/{id}")
+    public ResponseEntity<CourseDTO> update(@PathVariable int id, @RequestBody CourseDTO dto) {
+        Course foundedCourse = courseService.findById(id);
+        foundedCourse.setCourseName(dto.getTitle());
+        foundedCourse.setCourseCode(dto.getCourseCode());
+        Course course = courseService.persist(foundedCourse);
+        return ResponseEntity.ok(courseMapper.toDto(course));
+    }
+
+    @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable int id) {
+        courseService.delete(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
+    @GetMapping("/{id}")
+    public ResponseEntity<CourseDTO> findById(@PathVariable int id) {
+        return ResponseEntity.ok(courseMapper.toDto(courseService.findById(id)));
+    }
+
+    @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
+    @GetMapping
+    public ResponseEntity<List<CourseDTO>> findAll() {
+        List<CourseDTO> courseDTOS = new ArrayList<>();
+        for (Course course : courseService.findAll()) courseDTOS.add(courseMapper.toDto(course));
+        return ResponseEntity.ok(courseDTOS);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/major/courses")
+    public ResponseEntity<List<CourseDTO>> findAllMajorCourses(@RequestBody String majorName) {
+        List<CourseDTO> courseDTOS = new ArrayList<>();
+        for (Course course : courseService.findAllMajorCourses(majorName)) courseDTOS.add(courseMapper.toDto(course));
+        return ResponseEntity.ok(courseDTOS);
+    }
+}

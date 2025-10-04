@@ -1,11 +1,9 @@
 package com.learning.learn03.interfaces;
 
 import com.learning.learn03.base.IBaseService;
-import com.learning.learn03.dtos.CourseDto;
 import com.learning.learn03.models.Course;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ICourseService extends IBaseService<Course, Integer> {
 

@@ -1,8 +1,9 @@
-package com.learning.learn03.dtos;
+package com.learning.learn03.mappers;
 
 import com.learning.learn03.base.BaseMapper;
+import com.learning.learn03.dtos.CourseDTO;
+import com.learning.learn03.models.Course;
 import com.learning.learn03.models.Major;
-import com.learning.learn03.models.User;
 import com.learning.learn03.repositories.MajorRepository;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
@@ -10,36 +11,38 @@ import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Mapper(componentModel = "spring")
-public abstract class UserMapper implements BaseMapper<User, UserDto> {
+public abstract class CourseMapper implements BaseMapper<Course, CourseDTO> {
 
     @Autowired
     private MajorRepository majorRepository;
 
-    public abstract UserDto toDto(User entity);
+    public abstract CourseDTO toDto(Course entity);
 
-    public abstract User toEntity(UserDto dto);
+    public abstract Course toEntity(CourseDTO dto);
+
 
     @AfterMapping
-    protected void afterToEntity(UserDto dto, @MappingTarget User user) {
+    protected void afterToEntity(CourseDTO dto, @MappingTarget Course course) {
         if (dto.getMajorName() != null) {
             Major major = majorRepository
                     .findByMajorName(dto.getMajorName())
                     .orElseThrow(() -> new IllegalArgumentException(
                             "Major with name " + dto.getMajorName() + " not found"
                     ));
-            user.setMajor(major);
+            course.setMajor(major);
         }
     }
 
     @AfterMapping
-    protected void afterToDTO(User user, @MappingTarget UserDto dto) {
-        if (user.getMajor().getMajorName() != null) {
+    protected void afterToDTO(Course course, @MappingTarget CourseDTO dto) {
+        if (course.getMajor().getMajorName() != null) {
             Major major = majorRepository
-                    .findByMajorName(user.getMajor().getMajorName())
+                    .findByMajorName(course.getMajor().getMajorName())
                     .orElseThrow(() -> new IllegalArgumentException(
                             "Major with name " + dto.getMajorName() + " not found"
                     ));
             dto.setMajorName(major.getMajorName());
         }
     }
+
 }

@@ -11,6 +11,7 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class JwtService {
@@ -30,20 +31,20 @@ public class JwtService {
         this.publicKey = KeyUtils.loadPublicKey("local-only/public_key.pem");
     }
 
-    public String generateAccessToken(final String username) {
+    public String generateAccessToken(final UUID uuid) {
         final Map<String, Object> claims = Map.of(TOKEN_TYPE, "ACCESS_TOKEN");
-        return buildToken(username, claims, this.accessTokenExpiration);
+        return buildToken(uuid, claims, this.accessTokenExpiration);
     }
 
-    public String generateRefreshToken(final String username) {
+    public String generateRefreshToken(final UUID uuid) {
         final Map<String, Object> claims = Map.of(TOKEN_TYPE, "REFRESH_TOKEN");
-        return buildToken(username, claims, this.refreshTokenExpiration);
+        return buildToken(uuid, claims, this.refreshTokenExpiration);
     }
 
-    private String buildToken(final String username, final Map<String, Object> claims, final long expiration) {
+    private String buildToken(final UUID uuid, final Map<String, Object> claims, final long expiration) {
         return Jwts.builder()
                 .claims(claims)
-                .subject(username)
+                .subject(uuid.toString())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(this.privateKey)
@@ -75,17 +76,17 @@ public class JwtService {
         }
     }
 
-    public String refreshAccessToken(final String refreshToken) {
-        final Claims claims = extractClaims(refreshToken);
-
-        if (!"REFRESH_TOKEN".equals(claims.get(TOKEN_TYPE, String.class))) {
-            throw new RuntimeException("Invalid token type");
-        }
-        if (claims.getExpiration().before(new Date())) {
-            throw new RuntimeException("Refresh token expired");
-        }
-
-        final String username = claims.getSubject();
-        return generateAccessToken(username);
-    }
+//    public String refreshAccessToken(final String refreshToken) {
+//        final Claims claims = extractClaims(refreshToken);
+//
+//        if (!"REFRESH_TOKEN".equals(claims.get(TOKEN_TYPE, String.class))) {
+//            throw new RuntimeException("Invalid token type");
+//        }
+//        if (claims.getExpiration().before(new Date())) {
+//            throw new RuntimeException("Refresh token expired");
+//        }
+//
+//        final String username = claims.getSubject();
+//        return generateAccessToken(username);
+//    }
 }
