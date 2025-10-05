@@ -39,7 +39,4 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponseDto> login(@RequestBody AuthenticationRequestDto request) {
         return ResponseEntity.status(HttpStatus.OK).body(authenticationService.login(request));
     }
-
-
-
 }

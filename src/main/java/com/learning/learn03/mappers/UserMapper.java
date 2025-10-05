@@ -17,7 +17,6 @@ public abstract class UserMapper implements BaseMapper<User, UserDto> {
     private MajorRepository majorRepository;
 
     public abstract UserDto toDto(User entity);
-
     public abstract User toEntity(UserDto dto);
 
     @AfterMapping
@@ -26,21 +25,27 @@ public abstract class UserMapper implements BaseMapper<User, UserDto> {
             Major major = majorRepository
                     .findByMajorName(dto.getMajorName())
                     .orElseThrow(() -> new IllegalArgumentException(
-                            "Major with name " + dto.getMajorName() + " not found"
+                            "Major not found"
                     ));
             user.setMajor(major);
         }
     }
 
     @AfterMapping
-    protected void afterToDTO(User user, @MappingTarget UserDto dto) {
-        if (user.getMajor().getMajorName() != null) {
-            Major major = majorRepository
-                    .findByMajorName(user.getMajor().getMajorName())
-                    .orElseThrow(() -> new IllegalArgumentException(
-                            "Major with name " + dto.getMajorName() + " not found"
-                    ));
-            dto.setMajorName(major.getMajorName());
+    protected void afterToDto(User user, @MappingTarget UserDto dto) {
+        if (user.getMajor() != null) {
+            dto.setMajorName(user.getMajor().getMajorName());
         }
     }
+//    @AfterMapping
+//    protected void afterToDTO(User user, @MappingTarget UserDto dto) {
+//        if (user.getMajor().getMajorName() != null) {
+//            Major major = majorRepository
+//                    .findByMajorName(user.getMajor().getMajorName())
+//                    .orElseThrow(() -> new IllegalArgumentException(
+//                            "Major not found"
+//                    ));
+//            dto.setMajorName(major.getMajorName());
+//        }
+//    }
 }

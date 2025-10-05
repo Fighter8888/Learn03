@@ -24,7 +24,7 @@ public class MajorService extends BaseService<Major, Integer> implements IMajorS
 
     @Override
     protected void prePersist(Major major) {
-        if (majorRepository.majorWithThisNameExist(major.getMajorName())){
+        if (majorRepository.existsByMajorName(major.getMajorName())){
             throw new RuntimeException("Major with name " + major.getMajorName() + " already exists!");
         }
         major.setMajorCode(UUID.randomUUID());

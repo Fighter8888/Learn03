@@ -36,6 +36,7 @@ public class InitializerService {
                 .orElseThrow(() -> new EntityNotFoundException("Role not found"));
         if (userRepository.findByRoles(principalRole).isEmpty()) {
             User principal = User.builder()
+                    .email("principal@gmail.com")
                     .firstName("Principal")
                     .lastName("Principal")
                     .phoneNumber("09301234567")
@@ -45,7 +46,7 @@ public class InitializerService {
 
 
             Account principalAccount = Account.builder()
-                    .userName("principal")
+                    .userName("principal@gmail.com")
                     .password(passwordEncoder.encode("principal"))
                     .status(UserStatus.Approved)
                     .user(principal)
