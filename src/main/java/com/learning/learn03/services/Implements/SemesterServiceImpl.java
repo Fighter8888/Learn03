@@ -1,7 +1,7 @@
-package com.learning.learn03.services;
+package com.learning.learn03.services.Implements;
 
 import com.learning.learn03.base.BaseService;
-import com.learning.learn03.interfaces.ISemesterService;
+import com.learning.learn03.services.ISemesterService;
 import com.learning.learn03.models.Semester;
 import com.learning.learn03.repositories.SemesterRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -14,10 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class SemesterService extends BaseService<Semester, Integer> implements ISemesterService {
+public class SemesterServiceImpl extends BaseService<Semester, Integer> implements ISemesterService {
     
     private final SemesterRepository semesterRepository;
-    protected SemesterService(JpaRepository<Semester, Integer> repository, SemesterRepository semesterRepository) {
+    protected SemesterServiceImpl(JpaRepository<Semester, Integer> repository, SemesterRepository semesterRepository) {
         super(repository);
         this.semesterRepository = semesterRepository;
     }

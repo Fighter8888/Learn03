@@ -2,7 +2,7 @@ package com.learning.learn03.controllers;
 
 import com.learning.learn03.dtos.ApiResponseDto;
 import com.learning.learn03.models.Role;
-import com.learning.learn03.services.AuthenticationService;
+import com.learning.learn03.services.Implements.AuthenticationServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -14,24 +14,24 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
-    private final AuthenticationService authenticationService;
+    private final AuthenticationServiceImpl authenticationServiceImpl;
 
-    public UserController(AuthenticationService authenticationService) {
-        this.authenticationService = authenticationService;
+    public UserController(AuthenticationServiceImpl authenticationServiceImpl) {
+        this.authenticationServiceImpl = authenticationServiceImpl;
     }
 
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER') or hasRole('STUDENT') or hasRole('TEACHER') or hasRole('USER')")
     @PostMapping("/change/role")
     public ResponseEntity<ApiResponseDto> changeRole(@RequestBody Role request , Principal principal) {
-        authenticationService.changeRole(principal.getName(), request.getRoleName());
+        authenticationServiceImpl.changeRole(principal.getName(), request.getRoleName());
         return ResponseEntity.ok(new ApiResponseDto("Change role success", true));
     }
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER') or hasRole('STUDENT') or hasRole('TEACHER') or hasRole('USER')")
     @GetMapping("/get/roles")
     public ResponseEntity<List<String>> getRoles(Principal principal) {
-        return ResponseEntity.ok(authenticationService.getPersonRoles(principal).stream().map(Role::getRoleName).toList());
+        return ResponseEntity.ok(authenticationServiceImpl.getUserRoles(principal).stream().map(Role::getRoleName).toList());
     }
 //    private final UserService userService;
 //

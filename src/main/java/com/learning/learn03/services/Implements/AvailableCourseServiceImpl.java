@@ -1,7 +1,7 @@
-package com.learning.learn03.services;
+package com.learning.learn03.services.Implements;
 
 import com.learning.learn03.base.BaseService;
-import com.learning.learn03.interfaces.IAvailableCourseService;
+import com.learning.learn03.services.IAvailableCourseService;
 import com.learning.learn03.models.*;
 import com.learning.learn03.repositories.AccountRepository;
 import com.learning.learn03.repositories.AvailableCourseRepository;
@@ -20,13 +20,13 @@ import java.time.ZoneOffset;
 import java.util.List;
 
 @Service
-public class AvailableCourseService extends BaseService<AvailableCourse, Integer> implements IAvailableCourseService {
+public class AvailableCourseServiceImpl extends BaseService<AvailableCourse, Integer> implements IAvailableCourseService {
 
     private final AccountRepository accountRepository;
     private final AvailableCourseRepository  availableCourseRepository;
     private final SemesterRepository semesterRepository;
     
-    protected AvailableCourseService(JpaRepository<AvailableCourse, Integer> repository, AccountRepository accountRepository, AvailableCourseRepository availableCourseRepository, SemesterRepository semesterRepository) {
+    protected AvailableCourseServiceImpl(JpaRepository<AvailableCourse, Integer> repository, AccountRepository accountRepository, AvailableCourseRepository availableCourseRepository, SemesterRepository semesterRepository) {
         super(repository);
         this.accountRepository = accountRepository;
         this.availableCourseRepository = availableCourseRepository;

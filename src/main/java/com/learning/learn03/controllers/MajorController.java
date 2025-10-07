@@ -2,7 +2,7 @@ package com.learning.learn03.controllers;
 
 import com.learning.learn03.dtos.ApiResponseDto;
 import com.learning.learn03.dtos.MajorDto;
-import com.learning.learn03.interfaces.IMajorService;
+import com.learning.learn03.services.IMajorService;
 import com.learning.learn03.mappers.MajorMapper;
 import com.learning.learn03.models.Major;
 import org.springframework.http.HttpStatus;

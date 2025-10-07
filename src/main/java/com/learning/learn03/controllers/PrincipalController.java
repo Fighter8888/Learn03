@@ -4,7 +4,7 @@ import com.learning.learn03.dtos.AddRoleRequest;
 import com.learning.learn03.dtos.ApiResponseDto;
 import com.learning.learn03.dtos.RegisterDto;
 import com.learning.learn03.mappers.RegisterMapper;
-import com.learning.learn03.interfaces.IAuthenticationService;
+import com.learning.learn03.services.IAuthenticationService;
 import com.learning.learn03.models.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

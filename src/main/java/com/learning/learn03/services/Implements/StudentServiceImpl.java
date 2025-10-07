@@ -1,6 +1,6 @@
-package com.learning.learn03.services;
+package com.learning.learn03.services.Implements;
 
-import com.learning.learn03.interfaces.IStudentService;
+import com.learning.learn03.services.IStudentService;
 import com.learning.learn03.models.Account;
 import com.learning.learn03.models.AvailableCourse;
 import com.learning.learn03.models.User;
@@ -14,13 +14,13 @@ import org.springframework.stereotype.Service;
 import java.security.Principal;
 
 @Service
-public class StudentService implements IStudentService {
+public class StudentServiceImpl implements IStudentService {
 
     private final UserRepository userRepository;
     private final AccountRepository accountRepository;
     private final AvailableCourseRepository availableCourseRepository;
 
-    public StudentService(UserRepository userRepository, AccountRepository accountRepository, AvailableCourseRepository availableCourseRepository) {
+    public StudentServiceImpl(UserRepository userRepository, AccountRepository accountRepository, AvailableCourseRepository availableCourseRepository) {
         this.userRepository = userRepository;
         this.accountRepository = accountRepository;
         this.availableCourseRepository = availableCourseRepository;

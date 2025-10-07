@@ -1,5 +1,6 @@
 package com.learning.learn03.dtos;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.time.Instant;
@@ -10,8 +11,10 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AvailableCourseDto {
-    private Instant startTime;
-    private Instant endTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "UTC")
+    private Instant aCourseStartDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "UTC")
+    private Instant aCourseEndDate;
     private int capacity;
     private Integer courseCode;
     private Integer semesterCode;

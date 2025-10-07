@@ -1,7 +1,7 @@
-package com.learning.learn03.services;
+package com.learning.learn03.services.Implements;
 
 import com.learning.learn03.base.BaseService;
-import com.learning.learn03.interfaces.IMajorService;
+import com.learning.learn03.services.IMajorService;
 import com.learning.learn03.models.Major;
 import com.learning.learn03.repositories.MajorRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -13,11 +13,11 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class MajorService extends BaseService<Major, Integer> implements IMajorService {
+public class MajorServiceImpl extends BaseService<Major, Integer> implements IMajorService {
 
     private final MajorRepository majorRepository;
 
-    protected MajorService(JpaRepository<Major, Integer> repository, MajorRepository majorRepository) {
+    protected MajorServiceImpl(JpaRepository<Major, Integer> repository, MajorRepository majorRepository) {
         super(repository);
         this.majorRepository = majorRepository;
     }

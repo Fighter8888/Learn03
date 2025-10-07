@@ -3,7 +3,7 @@ package com.learning.learn03.controllers;
 import com.learning.learn03.dtos.ApiResponseDto;
 import com.learning.learn03.dtos.AvailableCourseDto;
 import com.learning.learn03.dtos.AvailableCourseResponseDto;
-import com.learning.learn03.interfaces.IAvailableCourseService;
+import com.learning.learn03.services.IAvailableCourseService;
 import com.learning.learn03.mappers.AvailableCourseMapper;
 import com.learning.learn03.mappers.AvailableCourseResponseMapper;
 import com.learning.learn03.models.AvailableCourse;
@@ -42,9 +42,9 @@ public class AvailableCourseController {
     @PutMapping("/{id}")
     public ResponseEntity<AvailableCourseResponseDto> update(@PathVariable int id, @RequestBody AvailableCourseDto dto) {
         AvailableCourse foundedCourse = iavailableCourseService.findById(id);
-        foundedCourse.setACourseEndDate(dto.getEndTime());
+        foundedCourse.setACourseEndDate(dto.getACourseEndDate());
         foundedCourse.setCapacity(dto.getCapacity());
-        foundedCourse.setACourseStartDate(dto.getStartTime());
+        foundedCourse.setACourseStartDate(dto.getACourseStartDate());
         AvailableCourse availableCourse = iavailableCourseService.persist(foundedCourse);
         return ResponseEntity.ok(respMapper.toDto(availableCourse));
     }

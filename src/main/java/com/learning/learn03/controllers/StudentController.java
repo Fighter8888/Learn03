@@ -1,7 +1,7 @@
 package com.learning.learn03.controllers;
 
 import com.learning.learn03.dtos.ApiResponseDto;
-import com.learning.learn03.interfaces.IStudentService;
+import com.learning.learn03.services.IStudentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;

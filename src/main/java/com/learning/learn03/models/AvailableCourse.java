@@ -21,7 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class AvailableCourse extends BaseEntity<Integer> {
-    private int Capacity;
+    private int capacity;
     private Instant aCourseStartDate;
     private Instant aCourseEndDate;
 

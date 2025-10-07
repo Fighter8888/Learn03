@@ -1,5 +1,6 @@
 package com.learning.learn03.Security;
 
+import com.learning.learn03.models.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -31,24 +32,23 @@ public class JwtService {
         this.publicKey = KeyUtils.loadPublicKey("local-only/public_key.pem");
     }
 
-    public String generateAccessToken(final UUID uuid) {
+    public String generateAccessToken(final User user) {
         final Map<String, Object> claims = Map.of(TOKEN_TYPE, "ACCESS_TOKEN");
-        return buildToken(uuid, claims, this.accessTokenExpiration);
+        return buildToken(user.getEmail(), claims, this.accessTokenExpiration);
     }
 
-    public String generateRefreshToken(final UUID uuid) {
+    public String generateRefreshToken(final User user) {
         final Map<String, Object> claims = Map.of(TOKEN_TYPE, "REFRESH_TOKEN");
-        return buildToken(uuid, claims, this.refreshTokenExpiration);
+        return buildToken(user.getEmail(), claims, this.refreshTokenExpiration);
     }
 
-    private String buildToken(final UUID uuid, final Map<String, Object> claims, final long expiration) {
+    private String buildToken(final String subject, final Map<String, Object> claims, final long expiration) {
         return Jwts.builder()
                 .claims(claims)
-                .subject(uuid.toString())
+                .subject(subject)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(this.privateKey)
-                .compact();
+                .signWith(this.privateKey).compact();
     }
 
     public boolean isTokenValid(final String token, final UserDetails userDetails) {
@@ -66,15 +66,12 @@ public class JwtService {
 
     private Claims extractClaims(final String token) {
         try {
-            return Jwts.parser()
-                    .verifyWith(publicKey)
-                    .build()
-                    .parseSignedClaims(token)
-                    .getPayload();
+            return Jwts.parser().verifyWith(publicKey).build().parseSignedClaims(token).getPayload();
         } catch (final JwtException e) {
             throw new RuntimeException("Invalid token", e);
         }
     }
+
 
 //    public String refreshAccessToken(final String refreshToken) {
 //        final Claims claims = extractClaims(refreshToken);

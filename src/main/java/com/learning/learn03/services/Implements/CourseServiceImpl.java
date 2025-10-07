@@ -1,9 +1,9 @@
-package com.learning.learn03.services;
+package com.learning.learn03.services.Implements;
 
 import com.learning.learn03.base.BaseService;
 import com.learning.learn03.models.Course;
 import com.learning.learn03.models.Major;
-import com.learning.learn03.interfaces.ICourseService;
+import com.learning.learn03.services.ICourseService;
 import com.learning.learn03.repositories.CourseRepository;
 import com.learning.learn03.repositories.MajorRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -12,12 +12,12 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class CourseService extends BaseService<Course, Integer> implements ICourseService {
+public class CourseServiceImpl extends BaseService<Course, Integer> implements ICourseService {
 
     private final CourseRepository courseRepository;
     private final MajorRepository majorRepository;
 
-    protected CourseService(JpaRepository<Course, Integer> repository, CourseRepository courseRepository, MajorRepository majorRepository) {
+    protected CourseServiceImpl(JpaRepository<Course, Integer> repository, CourseRepository courseRepository, MajorRepository majorRepository) {
         super(repository);
         this.courseRepository = courseRepository;
         this.majorRepository = majorRepository;

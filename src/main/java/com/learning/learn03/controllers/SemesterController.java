@@ -3,7 +3,7 @@ package com.learning.learn03.controllers;
 
 import com.learning.learn03.dtos.ApiResponseDto;
 import com.learning.learn03.dtos.SemesterDto;
-import com.learning.learn03.interfaces.ISemesterService;
+import com.learning.learn03.services.ISemesterService;
 import com.learning.learn03.mappers.SemesterMapper;
 import com.learning.learn03.models.Semester;
 import org.springframework.http.HttpStatus;

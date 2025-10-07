@@ -1,10 +1,10 @@
-package com.learning.learn03.services;
+package com.learning.learn03.services.Implements;
 
 import com.learning.learn03.Security.JwtService;
 import com.learning.learn03.base.BaseService;
 import com.learning.learn03.dtos.AuthenticationRequestDto;
 import com.learning.learn03.dtos.AuthenticationResponseDto;
-import com.learning.learn03.interfaces.IAuthenticationService;
+import com.learning.learn03.services.IAuthenticationService;
 import com.learning.learn03.models.Account;
 import com.learning.learn03.models.Role;
 import com.learning.learn03.models.User;
@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class AuthenticationService extends BaseService<User, Integer> implements IAuthenticationService {
+public class AuthenticationServiceImpl extends BaseService<User, Integer> implements IAuthenticationService {
 
     private final AuthenticationManager authenticationManager;
     private final AccountRepository accountRepository;
@@ -37,9 +37,9 @@ public class AuthenticationService extends BaseService<User, Integer> implements
     private final RoleRepository roleRepository;
     private final JwtService jwtService;
 
-    protected AuthenticationService(JpaRepository<User, Integer> repository, AuthenticationManager authenticationManager,
-                                    AccountRepository accountRepository, UserRepository userRepository, RoleRepository roleRepository,
-                                    JwtService jwtService, PasswordEncoder passwordEncoder
+    protected AuthenticationServiceImpl(JpaRepository<User, Integer> repository, AuthenticationManager authenticationManager,
+                                        AccountRepository accountRepository, UserRepository userRepository, RoleRepository roleRepository,
+                                        JwtService jwtService, PasswordEncoder passwordEncoder
     ) {
         super(repository);
         this.authenticationManager = authenticationManager;
@@ -70,9 +70,9 @@ public class AuthenticationService extends BaseService<User, Integer> implements
             account.setAccountId(UUID.randomUUID());
             accountRepository.save(account);
 
-            final String token = jwtService.generateAccessToken(account.getAccountId());
+            final String token = jwtService.generateAccessToken(account.getUser());
 
-            final String refreshToken = jwtService.generateRefreshToken(account.getAccountId());
+            final String refreshToken = jwtService.generateRefreshToken(account.getUser());
 
             return AuthenticationResponseDto.builder().accessToken(token)
                     .refreshToken(refreshToken).tokenType("Barrier ")
@@ -123,7 +123,7 @@ public class AuthenticationService extends BaseService<User, Integer> implements
     }
 
     @Override
-    public List<Role> getPersonRoles(Principal principal) {
+    public List<Role> getUserRoles(Principal principal) {
         String username = principal.getName();
         Account account = accountRepository.findByUserName(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Email not found"));

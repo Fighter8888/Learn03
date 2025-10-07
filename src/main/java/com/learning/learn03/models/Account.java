@@ -20,6 +20,7 @@ public class Account extends BaseEntity<Integer> {
     private UUID accountId;
     @Email
     @NotBlank
+    @Column(unique = true)
     private String userName;
     @NotBlank
     private String password;
