@@ -16,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
-
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -56,13 +55,11 @@ public class AvailableCourseControllerIntegrationTest {
 
     @BeforeEach
     void beforeEach() throws Exception {
-        // Clean DB tables before each test to avoid duplicate key issues
         availableCourseRepository.deleteAll();
         courseRepository.deleteAll();
         semesterRepository.deleteAll();
         accountRepository.deleteAll();
         userRepository.deleteAll();
-
         this.accessToken = loginAsPrincipal();
     }
 
@@ -94,12 +91,12 @@ public class AvailableCourseControllerIntegrationTest {
     }
 
     @Test
-    void updateOfferedCourseTest() throws Exception {
+    void updateAvailableCourse() throws Exception {
         Major major = getMajor("MADNESS");
         Course course = createCourse("cc20", major);
         User teacher = createTeacher(major);
         Semester semester = createSemester(major, LocalDate.of(2025, 11, 10), LocalDate.of(2025, 11, 20));
-        AvailableCourse availableCourse = createOfferedCourse(course, semester);
+        AvailableCourse availableCourse = createAvailableCourse(course, semester);
 
         AvailableCourseDto dto = AvailableCourseDto.builder()
                 .aCourseStartDate(Instant.parse("2026-11-23T11:00:00Z"))
@@ -118,11 +115,11 @@ public class AvailableCourseControllerIntegrationTest {
     }
 
     @Test
-    void deleteOfferedCourseTest() throws Exception {
+    void deleteAvailableCourse() throws Exception {
         Major major = getMajor("MADNESS");
         Course course = createCourse("course11", major);
         Semester semester = createSemester(major, LocalDate.of(2016, 6, 9), LocalDate.of(2025, 11, 20));
-        AvailableCourse availableCourse = createOfferedCourse(course, semester);
+        AvailableCourse availableCourse = createAvailableCourse(course, semester);
 
         mockMvc.perform(delete("/web/availableCourse/" + availableCourse.getId())
                         .header("Authorization", "Bearer " + accessToken))
@@ -130,11 +127,11 @@ public class AvailableCourseControllerIntegrationTest {
     }
 
     @Test
-    void findByIdTest() throws Exception {
+    void findById() throws Exception {
         Major major = getMajor("MADNESS");
         Course course = createCourse("course12", major);
         Semester semester = createSemester(major, LocalDate.of(2025, 11, 10), LocalDate.of(2025, 11, 20));
-        AvailableCourse availableCourse = createOfferedCourse(course, semester);
+        AvailableCourse availableCourse = createAvailableCourse(course, semester);
 
         mockMvc.perform(get("/web/availableCourse/" + availableCourse.getId())
                         .header("Authorization", "Bearer " + accessToken))
@@ -142,21 +139,19 @@ public class AvailableCourseControllerIntegrationTest {
     }
 
     @Test
-    void findAllTest() throws Exception {
+    void findAll() throws Exception {
         mockMvc.perform(get("/web/availableCourse")
                         .header("Authorization", "Bearer " + accessToken))
                 .andExpect(status().isOk());
     }
 
-    // ---------------- Helper Methods ----------------
-
+    //========================================================================================//
     private String loginAsPrincipal() throws Exception {
         Role role = roleRepository.findByRoleName("PRINCIPAL").orElseThrow();
 
-        // Generate unique email each test run to prevent unique constraint violations
         String uniqueEmail = "principal" + System.currentTimeMillis() + "@gmail.com";
 
-        User principal = createPerson("PRINCIPAL", "PRINCIPAL", uniqueEmail, role, null);
+        User principal = createUser("PRINCIPAL", "PRINCIPAL", uniqueEmail, role, null);
         Account account = createAccount(principal, role);
         principal.setAccount(account);
         accountRepository.save(account);
@@ -164,7 +159,7 @@ public class AvailableCourseControllerIntegrationTest {
         return loginAndGetToken(principal.getEmail(), principal.getPhoneNumber());
     }
 
-    private User createPerson(String firstName, String lastName, String email, Role role, Major major) {
+    private User createUser(String firstName, String lastName, String email, Role role, Major major) {
         User user = User.builder()
                 .firstName(firstName)
                 .lastName(lastName)
@@ -206,8 +201,8 @@ public class AvailableCourseControllerIntegrationTest {
         return objectMapper.readValue(jwtToken, AuthenticationResponse.class).getAccessToken();
     }
 
-    private Major getMajor(String name) {
-        return majorRepository.findByMajorName(name).orElseThrow();
+    private Major getMajor(String majorName) {
+        return majorRepository.findByMajorName(majorName).orElseThrow();
     }
 
     private Course createCourse(String title, Major major) {
@@ -220,7 +215,7 @@ public class AvailableCourseControllerIntegrationTest {
         return semesterRepository.save(semester);
     }
 
-    private AvailableCourse createOfferedCourse(Course course, Semester semester) {
+    private AvailableCourse createAvailableCourse(Course course, Semester semester) {
         AvailableCourse availableCourse = AvailableCourse.builder()
                 .aCourseStartDate(Instant.parse("2025-11-23T11:00:00Z"))
                 .aCourseEndDate(Instant.parse("2025-11-23T12:00:00Z"))
@@ -234,7 +229,7 @@ public class AvailableCourseControllerIntegrationTest {
 
     private User createTeacher(Major major) {
         Role role = roleRepository.findByRoleName("TEACHER").orElseThrow();
-        User teacher = createPerson("Teacher", "Teacher", "teacher" + System.nanoTime() + "@gmail.com", role, major);
+        User teacher = createUser("Teacher", "Teacher", "teacher" + System.nanoTime() + "@gmail.com", role, major);
         createAccount(teacher, role);
         return teacher;
     }
