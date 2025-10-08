@@ -19,7 +19,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private final AccountRepository accountRepository;
 
-
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Account account = accountRepository.findByUserName(email)
@@ -27,7 +26,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         return new UserDetailsImpl(account);
     }
-
 
     //===========================================================================//
     private static class UserDetailsImpl implements UserDetails {
@@ -73,5 +71,4 @@ public class CustomUserDetailsService implements UserDetailsService {
             return true;
         }
     }
-
 }

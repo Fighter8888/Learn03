@@ -67,7 +67,7 @@ public class AuthenticationServiceImpl extends BaseService<User, Integer> implem
 
         if (account.getStatus().equals(UserStatus.Approved)) {
 
-            account.setAccountId(UUID.randomUUID());
+            account.setAccountAuthId(UUID.randomUUID());
             accountRepository.save(account);
 
             final String token = jwtService.generateAccessToken(account.getUser());

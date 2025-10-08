@@ -6,7 +6,6 @@ import com.learning.learn03.services.Implements.AuthenticationServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.security.Principal;
 import java.util.List;
 
@@ -21,50 +20,15 @@ public class UserController {
     }
 
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN', 'STUDENT', 'TEACHER', 'USER')")
-    @PostMapping("/change/role")
+    @PostMapping("/changerole")
     public ResponseEntity<ApiResponseDto> changeRole(@RequestBody Role request, Principal principal) {
         authenticationServiceImpl.changeRole(principal.getName(), request.getRoleName());
         return ResponseEntity.ok(new ApiResponseDto("Change role success", true));
     }
 
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN', 'STUDENT', 'TEACHER', 'USER')")
-    @GetMapping("/get/roles")
+    @GetMapping("/getroles")
     public ResponseEntity<List<String>> getRoles(Principal principal) {
         return ResponseEntity.ok(authenticationServiceImpl.getUserRoles(principal).stream().map(Role::getRoleName).toList());
     }
-//    private final UserService userService;
-//
-//    public UserController(UserService userService) {
-//        this.userService = userService;
-//    }
-//
-//    @PostMapping("/student/register")
-//    public ResponseEntity<Teacher> registerStudent(@RequestBody StudentDto student) {
-//        userService.registerStudent(student);
-//        return new ResponseEntity<>(HttpStatus.CREATED);
-//    }
-//
-//    @PostMapping("/teacher/register")
-//    public ResponseEntity<Teacher> registerTeacher(@RequestBody TeacherDto teacher) {
-//        userService.registerTeacher(teacher);
-//        return new ResponseEntity<>(HttpStatus.CREATED);
-//    }
-//
-//    //    @PostMapping("/login")
-//    public ResponseEntity<User> login(@RequestBody LoginDto loginDto) {
-//        User loggedInUser = userService.login(loginDto.getEmail(), loginDto.getPassword());
-//        return ResponseEntity.status(HttpStatus.ACCEPTED).body(loggedInUser);
-//    }
-//    @PostMapping("/login")
-//    public ResponseEntity<?> login(@RequestBody  LoginDto loginDto) {
-//        AuthenticationResponse login = userService.login(loginDto);
-//        return new ResponseEntity<>(login, HttpStatus.OK);
-//    }
-//
-//    @PreAuthorize("hasRole('Principal')")
-//    @PostMapping("/change/role")
-//    public ResponseEntity<UserDto> changeRole(@RequestBody UserDto user, RoleDto roleDto) {
-//        userService.changeRole(user.getEmail(), roleDto.getName());
-//        return ResponseEntity.status(HttpStatus.ACCEPTED).body(user);
-//    }
 }

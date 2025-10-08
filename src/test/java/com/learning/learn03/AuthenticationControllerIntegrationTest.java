@@ -104,7 +104,7 @@ public class AuthenticationControllerIntegrationTest {
                 .password(passwordEncoder.encode(principal.getPhoneNumber()))
                 .status(UserStatus.Approved)
                 .user(principal)
-                .accountId(UUID.randomUUID())
+                .accountAuthId(UUID.randomUUID())
                 .role(role)
                 .build();
 

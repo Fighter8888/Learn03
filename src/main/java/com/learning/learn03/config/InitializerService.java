@@ -14,7 +14,6 @@ import java.util.UUID;
 @Service
 public class InitializerService {
 
-
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
@@ -85,6 +84,4 @@ public class InitializerService {
             majorRepository.save(computer);
         }
     }
-
-
 }

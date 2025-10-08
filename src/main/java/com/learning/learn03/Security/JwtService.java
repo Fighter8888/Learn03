@@ -12,7 +12,6 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Date;
 import java.util.Map;
-import java.util.UUID;
 
 @Service
 public class JwtService {
@@ -28,8 +27,8 @@ public class JwtService {
     private long refreshTokenExpiration;
 
     public JwtService() throws Exception {
-        this.privateKey = KeyUtils.loadPrivateKey("local-only/private_key.pem");
-        this.publicKey = KeyUtils.loadPublicKey("local-only/public_key.pem");
+        this.privateKey = KeyUtils.loadPrivateKey("key/private_key.pem");
+        this.publicKey = KeyUtils.loadPublicKey("key/public_key.pem");
     }
 
     public String generateAccessToken(final User user) {
@@ -48,7 +47,8 @@ public class JwtService {
                 .subject(subject)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(this.privateKey).compact();
+                .signWith(this.privateKey)
+                .compact();
     }
 
     public boolean isTokenValid(final String token, final UserDetails userDetails) {
@@ -67,8 +67,8 @@ public class JwtService {
     private Claims extractClaims(final String token) {
         try {
             return Jwts.parser().verifyWith(publicKey).build().parseSignedClaims(token).getPayload();
-        } catch (final JwtException e) {
-            throw new RuntimeException("Invalid token", e);
+        } catch (final JwtException exception) {
+            throw new RuntimeException("Invalid token", exception);
         }
     }
 

@@ -18,7 +18,7 @@ import java.util.UUID;
 @Entity
 public class Account extends BaseEntity<Integer> {
 
-    private UUID accountId;
+    private UUID accountAuthId;
     @Email
     @NotBlank
     @Column(unique = true)
