@@ -28,8 +28,8 @@ public class AuthenticationController {
     @PostMapping("/student/register")
     public ResponseEntity<ApiResponseDto> studentRegister(@RequestBody UserDto request) {
         User user = authenticationServiceImpl.persist(userMapper.toEntity(request));
-        authenticationServiceImpl.addRoleToPerson("student" , user.getId());
-        ApiResponseDto responseDTO = new ApiResponseDto("Register success" , true);
+        authenticationServiceImpl.addRoleToPerson("student", user.getId());
+        ApiResponseDto responseDTO = new ApiResponseDto("Register success", true);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 

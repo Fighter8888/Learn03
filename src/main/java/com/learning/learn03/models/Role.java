@@ -15,9 +15,6 @@ import java.util.*;
 @NoArgsConstructor
 @Entity
 public class Role extends BaseEntity<Integer> {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
 
     @NotNull
     private String roleName;

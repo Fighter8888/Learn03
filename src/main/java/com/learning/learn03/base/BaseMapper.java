@@ -1,6 +1,6 @@
 package com.learning.learn03.base;
 
-public interface BaseMapper<E, D> {
-    D toDto(E entity);
-    E toEntity(D dto);
+public interface BaseMapper<Entity, Dto> {
+    Dto toDto(Entity entity);
+    Entity toEntity(Dto dto);
 }

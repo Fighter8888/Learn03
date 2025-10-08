@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/principal")
 public class PrincipalController {
 
-
-
     private final IAuthenticationService iAuthenticationService;
     private final RegisterMapper registerMapper;
 
@@ -25,7 +23,7 @@ public class PrincipalController {
         this.registerMapper = registerMapper;
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @PostMapping("/teacher/register")
     public ResponseEntity<ApiResponseDto> teacherRegister(@RequestBody RegisterDto request) {
         User user = iAuthenticationService.persist(registerMapper.toEntity(request));
@@ -58,7 +56,6 @@ public class PrincipalController {
         return ResponseEntity.ok(new ApiResponseDto(msg , true));
     }
 
-
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/inactive/{id}")
     public ResponseEntity<ApiResponseDto> inactiveAccount(@PathVariable Integer id) {
@@ -66,5 +63,4 @@ public class PrincipalController {
         String msg = "user inactive successfully.";
         return ResponseEntity.ok(new ApiResponseDto(msg , true));
     }
-
 }

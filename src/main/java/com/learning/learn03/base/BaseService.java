@@ -2,7 +2,6 @@ package com.learning.learn03.base;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.io.Serializable;
 import java.util.List;
 

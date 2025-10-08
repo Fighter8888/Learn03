@@ -17,7 +17,6 @@ import java.util.List;
 @RequestMapping("/web/major")
 public class MajorController {
 
-
     private final IMajorService iMajorService;
     private final MajorMapper majorMapper;
 
@@ -25,7 +24,6 @@ public class MajorController {
         this.iMajorService = iMajorService;
         this.majorMapper = majorMapper;
     }
-
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
@@ -67,4 +65,3 @@ public class MajorController {
         return ResponseEntity.status(HttpStatus.OK).body(majors);
     }
 }
-

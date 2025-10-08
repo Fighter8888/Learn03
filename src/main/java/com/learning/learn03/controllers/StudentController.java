@@ -12,13 +12,11 @@ import java.security.Principal;
 @RequestMapping("/web/student")
 public class StudentController {
 
-
     private final IStudentService iStudentService;
 
     public StudentController(IStudentService iStudentService) {
         this.iStudentService = iStudentService;
     }
-
 
     @PreAuthorize("hasRole('STUDENT')")
     @PostMapping("/take/course/{courseId}")
@@ -26,7 +24,6 @@ public class StudentController {
         iStudentService.CourseRequest(courseId, principal);
         return ResponseEntity.ok(new ApiResponseDto("Course get success.", true));
     }
-
 
 //    private final StudentService iStudentService;
 //    private final ExamService examService;

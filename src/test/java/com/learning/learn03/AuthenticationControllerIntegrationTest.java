@@ -5,7 +5,7 @@ import com.learning.learn03.dtos.UserDto;
 import com.learning.learn03.models.Account;
 import com.learning.learn03.models.Role;
 import com.learning.learn03.models.User;
-import com.learning.learn03.models.UserStatus;
+import com.learning.learn03.models.enums.UserStatus;
 import com.learning.learn03.repositories.AccountRepository;
 import com.learning.learn03.repositories.RoleRepository;
 import com.learning.learn03.repositories.UserRepository;

@@ -1,6 +1,7 @@
 package com.learning.learn03.config;
 
 import com.learning.learn03.models.*;
+import com.learning.learn03.models.enums.UserStatus;
 import com.learning.learn03.repositories.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;

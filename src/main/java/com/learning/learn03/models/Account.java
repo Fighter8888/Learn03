@@ -1,6 +1,7 @@
 package com.learning.learn03.models;
 
 import com.learning.learn03.base.BaseEntity;
+import com.learning.learn03.models.enums.UserStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

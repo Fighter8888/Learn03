@@ -20,15 +20,14 @@ public class UserController {
         this.authenticationServiceImpl = authenticationServiceImpl;
     }
 
-
-    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER') or hasRole('STUDENT') or hasRole('TEACHER') or hasRole('USER')")
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN', 'STUDENT', 'TEACHER', 'USER')")
     @PostMapping("/change/role")
-    public ResponseEntity<ApiResponseDto> changeRole(@RequestBody Role request , Principal principal) {
+    public ResponseEntity<ApiResponseDto> changeRole(@RequestBody Role request, Principal principal) {
         authenticationServiceImpl.changeRole(principal.getName(), request.getRoleName());
         return ResponseEntity.ok(new ApiResponseDto("Change role success", true));
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER') or hasRole('STUDENT') or hasRole('TEACHER') or hasRole('USER')")
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN', 'STUDENT', 'TEACHER', 'USER')")
     @GetMapping("/get/roles")
     public ResponseEntity<List<String>> getRoles(Principal principal) {
         return ResponseEntity.ok(authenticationServiceImpl.getUserRoles(principal).stream().map(Role::getRoleName).toList());

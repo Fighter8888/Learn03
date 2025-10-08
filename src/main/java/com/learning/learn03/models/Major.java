@@ -21,6 +21,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 public class Major extends BaseEntity<Integer> {
+
     @NotBlank
     private String majorName;
     private boolean majorActive;

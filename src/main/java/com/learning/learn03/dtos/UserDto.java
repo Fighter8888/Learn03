@@ -1,6 +1,6 @@
 package com.learning.learn03.dtos;
 
-import com.learning.learn03.models.UserStatus;
+import com.learning.learn03.models.enums.UserStatus;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;

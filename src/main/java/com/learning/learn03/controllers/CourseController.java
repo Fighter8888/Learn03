@@ -23,14 +23,14 @@ public class CourseController {
         this.courseMapper = courseMapper;
     }
 
-    @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @PostMapping
     public ResponseEntity<CourseDto> save(@RequestBody CourseDto dto) {
         Course course = courseServiceImpl.persist(courseMapper.toEntity(dto));
         return ResponseEntity.status(HttpStatus.CREATED).body(courseMapper.toDto(course));
     }
 
-    @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<CourseDto> update(@PathVariable int id, @RequestBody CourseDto dto) {
         Course foundedCourse = courseServiceImpl.findById(id);
@@ -40,20 +40,20 @@ public class CourseController {
         return ResponseEntity.ok(courseMapper.toDto(course));
     }
 
-    @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable int id) {
         courseServiceImpl.delete(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<CourseDto> findById(@PathVariable int id) {
         return ResponseEntity.ok(courseMapper.toDto(courseServiceImpl.findById(id)));
     }
 
-    @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @GetMapping
     public ResponseEntity<List<CourseDto>> findAll() {
         List<CourseDto> courseDtos = new ArrayList<>();
@@ -65,7 +65,8 @@ public class CourseController {
     @GetMapping("/major/courses")
     public ResponseEntity<List<CourseDto>> findAllMajorCourses(@RequestBody String majorName) {
         List<CourseDto> courseDtos = new ArrayList<>();
-        for (Course course : courseServiceImpl.findAllMajorCourses(majorName)) courseDtos.add(courseMapper.toDto(course));
+        for (Course course : courseServiceImpl.findAllMajorCourses(majorName))
+            courseDtos.add(courseMapper.toDto(course));
         return ResponseEntity.ok(courseDtos);
     }
 }

@@ -1,8 +1,9 @@
 package com.learning.learn03.dtos;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-@Builder
+@SuperBuilder
 @Getter
 @Setter
 @AllArgsConstructor

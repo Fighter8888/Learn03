@@ -30,7 +30,6 @@ public class AvailableCourseController {
         this.respMapper = respMapper;
     }
 
-
     @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<AvailableCourseResponseDto> create(@RequestBody AvailableCourseDto dto) {
@@ -53,7 +52,7 @@ public class AvailableCourseController {
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponseDto> delete(@PathVariable Integer id) {
         iavailableCourseService.delete(id);
-        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponseDto("Course deleted success." , true));
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponseDto("Course deleted success.", true));
     }
 
     @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
@@ -75,7 +74,8 @@ public class AvailableCourseController {
     @GetMapping("/teacher/courses")
     public ResponseEntity<List<AvailableCourseResponseDto>> findAllTeacherCourses(Principal principal) {
         List<AvailableCourseResponseDto> courseDTOS = new ArrayList<>();
-        for (AvailableCourse course : iavailableCourseService.findAllTeacherCourse(principal)) courseDTOS.add(respMapper.toDto(course));
+        for (AvailableCourse course : iavailableCourseService.findAllTeacherCourse(principal))
+            courseDTOS.add(respMapper.toDto(course));
         return ResponseEntity.ok(courseDTOS);
     }
 
@@ -94,7 +94,7 @@ public class AvailableCourseController {
     @PreAuthorize("hasRole('STUDENT') or hasRole('ADMIN') or hasRole('MANAGER')")
     @GetMapping("/term/courses/{termId}")
     public ResponseEntity<List<AvailableCourseResponseDto>> findAllTermCourses(@PathVariable Integer termId, Principal principal) {
-        List<AvailableCourse> termCourses = iavailableCourseService.findAllTermCourses(termId , principal);
+        List<AvailableCourse> termCourses = iavailableCourseService.findAllTermCourses(termId, principal);
         List<AvailableCourseResponseDto> courses = new ArrayList<>();
         for (AvailableCourse course : termCourses) {
             AvailableCourseResponseDto dto = respMapper.toDto(course);

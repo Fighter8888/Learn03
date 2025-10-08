@@ -1,4 +1,4 @@
-package com.learning.learn03.models;
+package com.learning.learn03.models.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 

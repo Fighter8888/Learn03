@@ -7,6 +7,8 @@ import com.learning.learn03.dtos.AuthenticationRequestDto;
 import com.learning.learn03.dtos.AuthenticationResponse;
 import com.learning.learn03.dtos.AvailableCourseDto;
 import com.learning.learn03.models.*;
+import com.learning.learn03.models.enums.CourseStatus;
+import com.learning.learn03.models.enums.UserStatus;
 import com.learning.learn03.repositories.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

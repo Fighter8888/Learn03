@@ -15,13 +15,13 @@ import java.util.List;
 
 @Service
 public class SemesterServiceImpl extends BaseService<Semester, Integer> implements ISemesterService {
-    
+
     private final SemesterRepository semesterRepository;
+
     protected SemesterServiceImpl(JpaRepository<Semester, Integer> repository, SemesterRepository semesterRepository) {
         super(repository);
         this.semesterRepository = semesterRepository;
     }
-
 
     @Override
     protected void prePersist(Semester semester) {
@@ -72,8 +72,6 @@ public class SemesterServiceImpl extends BaseService<Semester, Integer> implemen
         }
         return semester;
     }
-
-
 
     @Override
     public List<Semester> findAll() {

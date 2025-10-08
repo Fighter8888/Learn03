@@ -9,6 +9,7 @@ import com.learning.learn03.repositories.MajorRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+
 import java.util.*;
 
 @Service
@@ -23,8 +24,6 @@ public class CourseServiceImpl extends BaseService<Course, Integer> implements I
         this.majorRepository = majorRepository;
     }
 
-
-
     @Override
     protected void prePersist(Course course) {
         Major major = majorRepository.findById(course.getMajor().getId())
@@ -32,7 +31,7 @@ public class CourseServiceImpl extends BaseService<Course, Integer> implements I
         if (!major.isMajorActive()) {
             throw new EntityNotFoundException("Major not found");
         }
-        if (courseRepository.existsByMajorAndTitle(course.getMajor().getId() , course.getCourseName())) {
+        if (courseRepository.existsByMajorAndTitle(course.getMajor().getId(), course.getCourseName())) {
             throw new RuntimeException("This course already exists in this major!");
         }
         course.setCourseExist(true);
@@ -74,5 +73,4 @@ public class CourseServiceImpl extends BaseService<Course, Integer> implements I
         }
         return result;
     }
-
 }

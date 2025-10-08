@@ -15,9 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class Course extends BaseEntity<Integer> {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private int id;
+
     private int courseCode;
     private String courseName;
     private boolean courseExist;

@@ -16,6 +16,7 @@ import java.util.*;
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity<Integer> {
+
     @NotBlank
     private String firstName;
     @NotBlank
@@ -25,7 +26,6 @@ public class User extends BaseEntity<Integer> {
     @NotBlank
     @Email
     private String email;
-
 
     @OneToOne
     private Account account;

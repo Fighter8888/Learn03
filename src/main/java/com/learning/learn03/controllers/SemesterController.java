@@ -16,8 +16,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/web/semester")
-public class SemesterController{
-    
+public class SemesterController {
+
     private final ISemesterService iSemesterService;
     private final SemesterMapper semesterMapper;
 
@@ -26,15 +26,14 @@ public class SemesterController{
         this.semesterMapper = semesterMapper;
     }
 
-
-    @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @PostMapping
     public ResponseEntity<SemesterDto> save(@RequestBody SemesterDto termDTO) {
         Semester persist = iSemesterService.persist(semesterMapper.toEntity(termDTO));
         return ResponseEntity.status(HttpStatus.CREATED).body(semesterMapper.toDto(persist));
     }
 
-    @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<SemesterDto> update(@PathVariable int id, @RequestBody SemesterDto dto) {
         Semester foundedSemester = iSemesterService.findById(id);
@@ -44,20 +43,20 @@ public class SemesterController{
         return ResponseEntity.ok(semesterMapper.toDto(semester));
     }
 
-    @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponseDto> delete(@PathVariable int id) {
         iSemesterService.delete(id);
-        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponseDto("Semester deleted success." , true));
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponseDto("Semester deleted success.", true));
     }
 
-    @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<SemesterDto> findById(@PathVariable int id) {
         return ResponseEntity.ok(semesterMapper.toDto(iSemesterService.findById(id)));
     }
 
-    @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @GetMapping
     public ResponseEntity<List<SemesterDto>> findAll() {
         List<SemesterDto> semesterDtos = new ArrayList<>();

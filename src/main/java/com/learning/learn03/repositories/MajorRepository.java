@@ -9,6 +9,7 @@ import java.util.Optional;
 @Repository
 public interface MajorRepository extends JpaRepository<Major, Integer> {
     Optional<Major> findByMajorName(String majorName);
+
     boolean existsByMajorName(String majorName);
 
 }

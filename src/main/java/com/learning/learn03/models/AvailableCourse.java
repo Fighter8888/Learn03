@@ -1,6 +1,7 @@
 package com.learning.learn03.models;
 
 import com.learning.learn03.base.BaseEntity;
+import com.learning.learn03.models.enums.CourseStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
@@ -21,6 +22,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class AvailableCourse extends BaseEntity<Integer> {
+
     private int capacity;
     private Instant aCourseStartDate;
     private Instant aCourseEndDate;
